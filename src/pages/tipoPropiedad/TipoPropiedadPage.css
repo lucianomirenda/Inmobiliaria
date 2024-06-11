@@ -1,0 +1,103 @@
+/* Estilos generales de la página */
+.tipo-propiedad-page {
+  font-family: 'Poppins', sans-serif; /* Fuente moderna y elegante */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background: #f8f9fa; /* Fondo gris claro */
+  min-height: 100vh;
+}
+
+.tipo-propiedad-page h1 {
+  color: #333; /* Gris oscuro */
+  font-size: 2.8rem;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* Estilos de la lista */
+.tipo-propiedad-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* Estilos de las tarjetas */
+.tipo-propiedad-card {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease; /* Transiciones suaves para todos los cambios */
+}
+
+.tipo-propiedad-card h2 {
+  color: #333;
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.tipo-propiedad-card p {
+  color: #6c757d; /* Gris medio */
+  line-height: 1.5;
+}
+
+/* Efecto hover */
+.tipo-propiedad-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos de los botones (puedes personalizarlos según tus necesidades) */
+.tipo-propiedad-card button {
+  background-color: #007bff; /* Azul */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.tipo-propiedad-card button:hover {
+  background-color: #0069d9; /* Azul más oscuro en hover */
+}
+
+.tipo-propiedad-card .card-actions {
+  display: flex;
+  gap:10px;
+  justify-content: center;
+  opacity: 0; /* Ocultar las acciones inicialmente */
+  transition: opacity 0.3s ease; /* Transición suave para la opacidad */
+}
+
+/* Efecto hover */
+.tipo-propiedad-card:hover .card-actions {
+  opacity: 1; /* Mostrar las acciones al pasar el mouse */
+}
+
+.tipo-propiedad-page .btn-primary {
+  display: inline-block; /* Para que el botón tenga dimensiones */
+  padding: 12px 24px;   /* Espacio interno */
+  background-color: #007bff; /* Azul */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Bordes redondeados */
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none; /* Quitar subrayado */
+  transition: background-color 0.3s ease; /* Transición suave */
+  transition: transform 0.2s ease; /* Transición para el movimiento */
+  margin: 1%;
+}
+
+.tipo-propiedad-page .btn-primary:hover {
+  background-color: #0069d9; /* Azul más oscuro en hover */
+  transform: translateY(-2px); /* Mover ligeramente hacia arriba en hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+

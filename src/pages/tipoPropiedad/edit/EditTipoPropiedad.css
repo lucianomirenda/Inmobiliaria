@@ -1,0 +1,81 @@
+/* Estilos generales */
+.edit-tipo-propiedad-page {
+    font-family: 'Poppins', sans-serif; /* Fuente elegante (asegúrate de importarla) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 15px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .edit-tipo-propiedad-page h1 {
+    color: #333; /* Gris oscuro */
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  /* Estilos del formulario */
+  .edit-tipo-propiedad-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+  }
+  
+  .edit-tipo-propiedad-page label {
+    font-weight: bold;
+    color: #555; /* Gris más oscuro para las etiquetas */
+  }
+  
+  .edit-tipo-propiedad-page input[type="text"] {
+    padding: 12px;
+    border: 2px solid #e0e0e0; /* Borde gris claro */
+    border-radius: 8px;
+    font-size: 1.1rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  
+  .edit-tipo-propiedad-page input[type="text"]:focus {
+    outline: none;
+    border-color: #007bff; /* Azul al enfocar */
+  }
+  
+  /* Estilos de los botones */
+  .edit-tipo-propiedad-page button[type="submit"],
+  .edit-tipo-propiedad-page button[type="button"] {
+    background-color: #007bff; /* Azul */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-tipo-propiedad-page button[type="submit"]:hover,
+  .edit-tipo-propiedad-page button[type="button"]:hover {
+    background-color: #0069d9; /* Azul más oscuro en hover */
+  }
+  
+  .edit-tipo-propiedad-page button[type="button"] { /* Botón "Cancelar" */
+    background-color: #dc3545; /* Rojo */
+  }
+  
+  .edit-tipo-propiedad-page button[type="button"]:hover {
+    background-color: #c82333; /* Rojo más oscuro en hover */
+  }
+  
+  /* Estilos para el mensaje */
+  .edit-tipo-propiedad-page p {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
