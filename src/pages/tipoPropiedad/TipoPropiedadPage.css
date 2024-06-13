@@ -1,19 +1,24 @@
 /* Estilos generales de la página */
 .tipo-propiedad-page {
-  font-family: 'Poppins', sans-serif; /* Fuente moderna y elegante */
+  font-family: 'Poppins', sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px;
-  background: #f8f9fa; /* Fondo gris claro */
-  min-height: 100vh;
+  padding: 50px; /* Aumenta el padding */
+  background: #f8f9fa;
+  border-radius: 15px; /* Bordes más redondeados */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Sombra más intensa */
+  max-width: 800px; /* Ancho máximo más amplio para acomodar las tarjetas */
+  margin: 0 auto;
 }
 
 .tipo-propiedad-page h1 {
-  color: #333; /* Gris oscuro */
-  font-size: 2.8rem;
+  color: #333;
+  font-size: 2.5rem; /* Tamaño de fuente más grande */
   margin-bottom: 40px;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 /* Estilos de la lista */
@@ -22,7 +27,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
+  gap: 30px; 
 }
 
 /* Estilos de las tarjetas */
@@ -30,30 +35,30 @@
   background-color: #fff;
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease; /* Transiciones suaves para todos los cambios */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más sutil */
+  transition: all 0.3s ease;
 }
 
 .tipo-propiedad-card h2 {
   color: #333;
-  font-size: 1.6rem;
-  margin-bottom: 10px;
+  font-size: 1.8rem; /* Tamaño de fuente más grande */
+  margin-bottom: 15px; /* Más espacio inferior */
 }
 
 .tipo-propiedad-card p {
-  color: #6c757d; /* Gris medio */
+  color: #6c757d;
   line-height: 1.5;
 }
 
 /* Efecto hover */
 .tipo-propiedad-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más intensa en hover */
 }
 
-/* Estilos de los botones (puedes personalizarlos según tus necesidades) */
+/* Estilos de los botones */
 .tipo-propiedad-card button {
-  background-color: #007bff; /* Azul */
+  background-color: #28a745; /* Verde */
   color: white;
   padding: 10px 20px;
   border: none;
@@ -64,40 +69,103 @@
 }
 
 .tipo-propiedad-card button:hover {
-  background-color: #0069d9; /* Azul más oscuro en hover */
+  background-color: #218838; /* Verde más oscuro en hover */
 }
 
 .tipo-propiedad-card .card-actions {
   display: flex;
-  gap:10px;
+  gap: 10px;
   justify-content: center;
-  opacity: 0; /* Ocultar las acciones inicialmente */
-  transition: opacity 0.3s ease; /* Transición suave para la opacidad */
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* Efecto hover */
 .tipo-propiedad-card:hover .card-actions {
-  opacity: 1; /* Mostrar las acciones al pasar el mouse */
+  opacity: 1;
 }
 
+/* Estilos del botón principal (Nuevo tipo de propiedad) */
 .tipo-propiedad-page .btn-primary {
-  display: inline-block; /* Para que el botón tenga dimensiones */
-  padding: 12px 24px;   /* Espacio interno */
-  background-color: #007bff; /* Azul */
+  background-color: #28a745; /* Verde */
   color: white;
+  padding: 15px 30px; /* Botón más grande */
   border: none;
-  border-radius: 8px; /* Bordes redondeados */
-  font-size: 1rem;
+  border-radius: 25px; /* Bordes más redondeados */
+  font-size: 1.2rem;
   font-weight: bold;
-  text-decoration: none; /* Quitar subrayado */
-  transition: background-color 0.3s ease; /* Transición suave */
-  transition: transform 0.2s ease; /* Transición para el movimiento */
-  margin: 1%;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-bottom: 20px; /* Espacio inferior */
+  
 }
 
 .tipo-propiedad-page .btn-primary:hover {
-  background-color: #0069d9; /* Azul más oscuro en hover */
-  transform: translateY(-2px); /* Mover ligeramente hacia arriba en hover */
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.tipo-propiedad-page .error-message {
+  background-color: #f8d7da; /* Fondo rojo claro */
+  color: #721c24; /* Rojo oscuro */
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espacio entre el ícono y el texto */
+  position: fixed; /* Posición fija */
+  top: 20px; /* Distancia desde la parte superior */
+  left: 50%;
+  transform: translateX(-50%); /* Centrar horizontalmente */
+  z-index: 10; /* Asegurar que esté por encima de otros elementos */
+}
+
+/* Estilos para el mensaje de éxito en TipoPropiedadPage */
+.tipo-propiedad-page .mensaje-exito {
+  background-color: #d4edda; /* Fondo verde claro */
+  color: #155724; /* Verde oscuro */
+  padding: 15px 20px; /* Espaciado interno */
+  border-radius: 8px; /* Bordes redondeados */
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centrar ícono y texto horizontalmente */
+  gap: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  position: fixed; /* Posición fija */
+  top: 20px; /* Distancia desde la parte superior */
+  transform: translateX(-50%); /* Centrar horizontalmente */
+  z-index: 10; /* Asegurar que esté por encima de otros elementos */
+}
+
+
+.tipo-propiedad-page .mensaje-exito.mostrar {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Estilos para el botón Volver */
+.edit-tipo-propiedad-page button[type="button"] {
+  background-color: #35dc64; 
+  color: white;
+  margin-top: 20px;
+  padding: 15px 30px; 
+  border: none;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+.edit-tipo-propiedad-page button[type="button"]:hover {
+  background-color: #329a2b; /* Rojo más oscuro en hover */
+  transform: translateY(-2px); /* Efecto de elevación */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra más intensa en hover */
+}

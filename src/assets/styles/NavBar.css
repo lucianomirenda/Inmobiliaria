@@ -1,0 +1,19 @@
+.navbar {
+    padding: 20px;
+  }
+  
+  .nav-item {
+    font-family: 'Century Gothic';
+    font-size: 16px;
+    font-weight: 520;
+    margin-left: 20px;
+    color: #000;
+    text-decoration: none;
+    margin-right: 15px;
+    margin-left: 15px;
+  }
+  
+  .nav-item:hover {
+    text-decoration: underline;
+  }
+  

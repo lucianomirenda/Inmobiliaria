@@ -1,0 +1,19 @@
+.logo-container {
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(to bottom, #dddddd83, #88888883);
+}
+  
+.logo-img {
+   width: 130px;
+   margin-left: 10px;
+   margin-top: 10px;
+}
+  
+.logo-text {
+    font-family: 'Century Gothic';
+    font-size: 16px;
+    font-weight: 520;
+    margin-left: 20px;
+}
+  

@@ -86,11 +86,6 @@
     gap: 10px;
   }
 
-  .new-tipo-propiedad-page .mensaje-exito::before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-  }
-
   .new-tipo-propiedad-page .mensaje-error {
     background-color: #f8d7da; /* Fondo rojo claro */
     color: #721c24; /* Rojo oscuro */
@@ -108,4 +103,23 @@
 .new-tipo-propiedad-page .mensaje-error.mostrar {
   opacity: 1;
   transform: translateY(0);
+}
+
+.new-tipo-propiedad-page button[type="button"] {
+  background-color: #35dc64; 
+  color: white;
+  margin-top: 20px;
+  padding: 15px 30px; 
+  border: none;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+.new-tipo-propiedad-page button[type="button"]:hover {
+  background-color: #329a2b; /* Rojo más oscuro en hover */
+  transform: translateY(-2px); /* Efecto de elevación */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra más intensa en hover */
 }

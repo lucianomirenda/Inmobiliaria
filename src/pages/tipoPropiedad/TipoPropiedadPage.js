@@ -7,6 +7,8 @@ const TipoPropiedadPage = () => {
   const [tiposPropiedad, setTiposPropiedad] = useState([]);
   const [error, setError] = useState(null);
   const [mensajeEliminacion, setMensajeEliminacion] = useState(null); // Nuevo estado para el mensaje
+  const [mostrarError, setMostrarError] = useState(false); 
+  const [mostrarExito, setMostrarExito] = useState(false);
 
   useEffect(() => {
     const fetchTiposPropiedad = async () => {
@@ -44,9 +46,17 @@ const TipoPropiedadPage = () => {
         const data = await response.json();
         if (data.status === 'success') {
           setTiposPropiedad(tiposPropiedad.filter(tipo => tipo.id !== tipoId));
+          setMostrarExito(true); // Mostrar mensaje de éxito
+          setTimeout(() => {
+            setMostrarExito(false);
+            setError(null); // Reiniciar el estado de error (por si acaso)
+          }, 3000); 
         } else {
           setError(data.message || 'Error desconocido en la API');
-          setMensajeEliminacion(data.message || 'Error desconocido en la API'); // Actualizar el estado del mensaje
+          setMostrarError(true); 
+          setTimeout(() => {
+            setMostrarError(false);
+          }, 3000); // Actualizar el estado del mensaje
 
         }
       } catch (error) {
@@ -60,19 +70,26 @@ const TipoPropiedadPage = () => {
     <div className="tipo-propiedad-page">
       
       <h1>Tipos de propiedad</h1>
+
+      {mostrarExito && (
+        <p className="mensaje-exito mostrar">Tipo de propiedad eliminado con éxito</p>
+    ) }
+
+      {error && mostrarError && (
+        <p className="error-message mostrar">Error: {error}</p>
+      )}
+
       <Link to="/tipoPropiedad/nuevo" className="btn btn-primary">
         Nuevo tipo de propiedad
       </Link>
 
-      {error ? (
-        <p className="error-message">Error: {error}</p>
-      ) : Array.isArray(tiposPropiedad) && tiposPropiedad.length > 0 ? (
+        {Array.isArray(tiposPropiedad) && tiposPropiedad.length > 0 ? (
         <ul className="tipo-propiedad-list">
           {tiposPropiedad.map(tipo => (
             <li key={tipo.id} className="tipo-propiedad-card">
               <h2>{tipo.nombre}</h2>
               <div className="card-actions"> {/* Nuevo contenedor */}
-              <Link to={`/tipo-propiedad/editar/${tipo.id}`}>
+              <Link to={`/tipo-propiedad/editar/${tipo.id}/${tipo.nombre}`}>
                <button className="btn-editar"
                 state={{ nombre: tipo.nombre }} 
                >Editar</button>

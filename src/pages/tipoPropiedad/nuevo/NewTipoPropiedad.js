@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import './NewTipoPropiedad.css';
+import './NewTipoPropiedad.css'; 
+import { useNavigate } from 'react-router-dom';
 
 const NewTipoPropiedad = () => {
   const [nombre, setNombre] = useState('');
   const [mensaje, setMensaje] = useState(''); // Para mostrar el mensaje del servidor
+  const navigate = useNavigate(); // Obtener la función de navegación
+
+  const handleVolver = () => {
+    navigate(-1); // Navegar a la página anterior
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Evitar recarga de página
@@ -50,6 +57,7 @@ const NewTipoPropiedad = () => {
         </div>
         <button type="submit">Crear</button>
       </form>
+      <button type="button" onClick={handleVolver}>Volver</button> {/* Botón Volver */}
       {mensaje && (
         <p className={mensaje.includes('Error') ? 'mensaje-error' : 'mensaje-exito'}>
           {mensaje}
