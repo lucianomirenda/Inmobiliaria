@@ -4,8 +4,6 @@ import './EditTipoPropiedad.css';
 
 
 const EditTipoPropiedad = () => {
-
-
   
   const { id, nombre } = useParams();
   const [nombreEditado, setNombreEditado] = useState(nombre); // Usar el nombre obtenido de la URL
@@ -20,7 +18,7 @@ const EditTipoPropiedad = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (nombre.trim() === '') {
+    if (nombreEditado.trim() === '') {
       setMensaje('El nombre es obligatorio');
       return;
     }
