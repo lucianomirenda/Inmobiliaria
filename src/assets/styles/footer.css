@@ -1,10 +1,17 @@
-.texto-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    text-align: center;
+.footer-container {
+   width: 100%;
+   padding: 20px;
+   box-sizing: border-box;
+ }
+
+ .texto-container {
+   display: flex;
+   flex-direction: column; /* Cambiar a una estructura de columna */
+   justify-content: center;
+   align-items: center; /* Centrar verticalmente */
+   bottom: 0;
+   left: 0;
+   text-align: center;
 }
  
 .nombre-text {
