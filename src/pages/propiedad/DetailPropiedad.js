@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import './PropiedadPage.css';
+import './DetailPropiedad.css';
+import { fetchPropiedadPorId } from 'D:/PHP/inmobiliaria/src/utils/api.js'; // Importar la función
+
 
 
 const DetailPropiedad = () => {
@@ -9,29 +11,20 @@ const DetailPropiedad = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchPropiedad = async () => {
+    const cargarPropiedad = async () => { // Función para cargar la propiedad
       try {
-        const response = await fetch(`http://localhost/propiedades/${id}`);
-        if (!response.ok) {
-          throw new Error('Error en la respuesta de la API');
-        }
-        const data = await response.json();
-        if (data.status === 'success') {
-          setPropiedad(data.data[0]); 
-        } else {
-          throw new Error(data.message || 'Error desconocido en la API');
-        }
+        const propiedadData = await fetchPropiedadPorId(id);
+        setPropiedad(propiedadData);
       } catch (error) {
-        console.error('Error al obtener los detalles de la propiedad:', error);
         setError(error.message);
       }
     };
 
-    fetchPropiedad();
+    cargarPropiedad();
   }, [id]);
 
   return (
-<div className="tipo-propiedad-page">
+<div className="detail-propiedad-page">
       <div className="titulo-section">
         <h1>Detalles de la Propiedad</h1>
       </div>
@@ -39,7 +32,7 @@ const DetailPropiedad = () => {
       {error ? (
         <p className="error-message">Error: {error}</p>
       ) : propiedad ? (
-        <div className="detalles">
+        <div className="detail-data">
           <dt>Domicilio:</dt>
           <dd>{propiedad.domicilio}</dd>
           <dt>Localidad:</dt>

@@ -45,6 +45,7 @@ const EditTipoPropiedad = () => {
   };
 
   return (
+    
     <div className="edit-tipo-propiedad-page">
       <h1>Editar Tipo de Propiedad</h1>
       <form onSubmit={handleSubmit}>

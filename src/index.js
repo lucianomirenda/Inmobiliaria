@@ -11,8 +11,8 @@ import EditTipoPropiedad from './pages/tipoPropiedad/edit/EditTipoPropiedad';
 import HeaderComponent from './components/HeaderComponent';
 import FooterComponent from './components/FooterComponent';
 import DetailPropiedad from './pages/propiedad/DetailPropiedad';
-
-
+import PropiedadEditPage from './pages/propiedad/PropiedadEditPage';
+import NewPropiedadPage from './pages/propiedad/NewPropiedadPage';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,6 +22,8 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/propiedad" element={<PropiedadPage />}/>
+        <Route path="/propiedad/nuevo" element={<NewPropiedadPage />}/>
+        <Route path="/propiedad/editar/:id" element={<PropiedadEditPage />}/>
         <Route path="/tipo-propiedad/editar/:id/:nombre" element={<EditTipoPropiedad />} />
         <Route path="/tipoPropiedad/nuevo" element={<NewTipoPropiedad />}/>
         <Route path="/tipoPropiedad" element={<TipoPropiedadPage />}/>

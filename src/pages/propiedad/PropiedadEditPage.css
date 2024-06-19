@@ -1,0 +1,129 @@
+/* Estilos generales de la página */
+.edit-propiedad-page {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fff;
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 30px auto;
+  }
+  
+  .edit-propiedad-page h1 {
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  
+  /* Estilos del formulario */
+  .edit-propiedad-page form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas para los campos del formulario */
+    gap: 20px;
+  }
+  
+  .edit-propiedad-page label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .edit-propiedad-page input[type="text"],
+  .edit-propiedad-page input[type="date"],
+  .edit-propiedad-page input[type="number"],
+  .edit-propiedad-page input[type="file"],
+  .edit-propiedad-page select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 100%; /* Ocupar todo el ancho de la columna */
+  }
+  
+  .edit-propiedad-page input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  
+  .edit-propiedad-page button[type="submit"] {
+    grid-column: span 2; /* El botón ocupa ambas columnas */
+    background-color: #28a745; /* Verde para acciones positivas */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  }
+  
+  .edit-propiedad-page button[type="submit"]:hover {
+    background-color: #218838; /* Verde más oscuro en hover */
+    transform: translateY(-2px); /* Efecto de elevación */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra más intensa en hover */
+  }
+  
+  /* Estilos para el botón Volver */
+  .edit-propiedad-page button[type="button"] {
+    background-color: #357c4f; /* Rojo para acciones negativas */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    margin-top: 20px;
+  }
+  
+  .edit-propiedad-page button[type="button"]:hover {
+    background-color: #00400f; /* Rojo más oscuro en hover */
+    transform: translateY(-2px); /* Efecto de elevación */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra más intensa en hover */
+  }
+  
+  .edit-propiedad-page .error-message {
+    background-color: #f8d7da; /* Fondo rojo claro */
+    color: #721c24; /* Rojo oscuro */
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre el ícono y el texto */
+    position: fixed; /* Posición fija */
+    top: 20px; /* Distancia desde la parte superior */
+    left: 50%;
+    transform: translateX(-50%); /* Centrar horizontalmente */
+    z-index: 10; /* Asegurar que esté por encima de otros elementos */
+  }
+  
+  /* Estilos para el mensaje de éxito en TipoPropiedadPage */
+  .edit-propiedad-page .mensaje-exito {
+    background-color: #d4edda; /* Fondo verde claro */
+    color: #155724; /* Verde oscuro */
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-top: 40px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre el ícono y el texto */
+    position: fixed; /* Posición fija */
+    top: 20px; /* Distancia desde la parte superior */
+    left: 40%;
+    transform: translateX(-50%); /* Centrar horizontalmente */
+    z-index: 10;/* Asegurar que esté por encima de otros elementos */
+  }
+  
+  
+  .edit-propiedad-page .mensaje-exito.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  

@@ -22,7 +22,7 @@
 }
 
 /* Estilos de la lista */
-.tipo-propiedad-list {
+.propiedad-list {
   list-style: none;
   padding: 0;
   display: grid;
@@ -30,8 +30,17 @@
   gap: 30px; 
 }
 
+.tipo-propiedad-list li { /* Selector para los elementos de la lista */
+  list-style-type: none; /* Asegura que no haya ningún tipo de marcador de lista */
+  margin-left: 0;        /* Elimina cualquier margen izquierdo residual */
+}
+
 /* Estilos de las tarjetas */
+
+
 .tipo-propiedad-card {
+  margin: 20px;
+  width: 400px;
   background-color: #fff;
   padding: 30px;
   border-radius: 10px;
@@ -67,6 +76,7 @@
   margin-top: 15px;
   transition: background-color 0.3s ease;
 }
+
 
 .tipo-propiedad-card button:hover {
   background-color: #218838; /* Verde más oscuro en hover */
