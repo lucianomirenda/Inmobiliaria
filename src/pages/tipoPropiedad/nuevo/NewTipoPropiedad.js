@@ -4,24 +4,23 @@ import { useNavigate } from 'react-router-dom';
 
 const NewTipoPropiedad = () => {
   const [nombre, setNombre] = useState('');
-  const [mensaje, setMensaje] = useState(''); // Para mostrar el mensaje del servidor
-  const navigate = useNavigate(); // Obtener la función de navegación
+  const [mensaje, setMensaje] = useState(''); 
+  const navigate = useNavigate(); 
 
   const handleVolver = () => {
-    navigate(-1); // Navegar a la página anterior
+    navigate(-1); 
   };
 
-
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evitar recarga de página
+    e.preventDefault(); 
 
-    if (nombre.trim() === '') { // Validar que el nombre no esté vacío
+    if (nombre.trim() === '') { 
       setMensaje('El nombre es obligatorio');
       return;
     }
 
     try {
-      const response = await fetch('http://localhost/tipos_propiedad', { // Tu endpoint
+      const response = await fetch('http://localhost/tipos_propiedad', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,8 +33,8 @@ const NewTipoPropiedad = () => {
       }
 
       const data = await response.json();
-      setMensaje(data.message); // Mostrar el mensaje del servidor
-      setNombre(''); // Limpiar el campo de nombre
+      setMensaje(data.message); 
+      setNombre(''); 
     } catch (error) {
       console.error('Error al crear el tipo de propiedad:', error);
       setMensaje('Error al crear el tipo de propiedad');
@@ -57,7 +56,7 @@ const NewTipoPropiedad = () => {
         </div>
         <button type="submit">Crear</button>
       </form>
-      <button type="button" onClick={handleVolver}>Volver</button> {/* Botón Volver */}
+      <button type="button" onClick={handleVolver}>Volver</button> 
       {mensaje && (
         <p className={mensaje.includes('Error') ? 'mensaje-error' : 'mensaje-exito'}>
           {mensaje}

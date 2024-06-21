@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './PropiedadPage.css'; // Asegúrate de tener este archivo CSS
+import './PropiedadPage.css'; 
 import { fetchLocalidades } from 'D:/PHP/inmobiliaria/src/utils/api.js';
 
 const PropiedadPage = () => {
@@ -18,7 +18,7 @@ const PropiedadPage = () => {
   const [error, setError] = useState(null);
   const [mostrarError, setMostrarError] = useState(false);
   const [mostrarExito, setMostrarExito] = useState(false);
-  const [localidades, setLocalidades] = useState([]); // Estado para las localidades
+  const [localidades, setLocalidades] = useState([]); 
 
   function mostrarErrorOn() {
     setMostrarError(true);
@@ -45,7 +45,7 @@ const PropiedadPage = () => {
         const queryParams = new URLSearchParams(
           Object.entries(filtros).reduce((params, [key, value]) => {
             if (key === 'disponible') {
-              params[key] = value ? '1' : '0'; // Convertir booleano a cadena
+              params[key] = value ? '1' : '0'; 
             } else if (value !== '') {
               params[key] = value;
             }
@@ -68,12 +68,12 @@ const PropiedadPage = () => {
       } catch (error) {
         console.error('Error al obtener las propiedades:', error);
         setError(error.message);
-        mostrarErrorOn() // Ocultar el mensaje después de 5 segundos
+        mostrarErrorOn() 
       }
     };
 
     fetchPropiedades();
-  }, [filtros]); // Ejecutar el efecto cuando cambien los filtros
+  }, [filtros]); 
 
   useEffect(() => {
     const cargarLocalidades = async () => {
@@ -130,26 +130,22 @@ const PropiedadPage = () => {
     <div className="tipo-propiedad-page">
       <h1>Propiedades</h1>
   
-      {/* Mensaje de error */}
       {error && mostrarError && (
         <p className="error-message mostrar">Error: {error}</p>
       )}
       
-      {/* Mensaje de éxito */}
       {exito && mostrarExito && (
         <p className="mensaje-exito mostrar">
           {exito}
         </p>
       )} 
   
-      
-      {/* Formulario de filtros */}
       <div className="contenido-principal">
       <form>
         <div className="filtros-container">
           <div className="filtro">
                 <label htmlFor="disponible">Disponible:</label>
-                <div className="checkbox-container"> {/* Contenedor para el checkbox y la etiqueta */}
+                <div className="checkbox-container"> 
                 <input
                     type="checkbox"
                     id="disponible"
@@ -157,7 +153,7 @@ const PropiedadPage = () => {
                     checked={filtros.disponible}
                     onChange={handleFiltroChange}
                 />
-                <span className="checkbox-label"></span> {/* Etiqueta personalizada */}
+                <span className="checkbox-label"></span> 
                 </div>
             </div>
             <div className="filtro">
@@ -214,8 +210,8 @@ const PropiedadPage = () => {
                     <p>Localidad: {propiedad.localidad}</p>
                     <p>Tipo: {propiedad.tipo_de_propiedad}</p>
                     <p>Disponible desde la fecha: {propiedad.fecha_inicio_disponibilidad}</p>
+                    <p>Cantidad de huespedes: {propiedad.cantidad_huespedes}</p>
                     <p>Costo por noche: {propiedad.valor_noche}</p>
-                    {/* TODO: Agregar más detalles de la propiedad */}
                     <div className="card-actions">
                       <Link to={`/propiedad/${propiedad.id}`}>Ver detalle</Link>
                       <Link to={`/propiedad/editar/${propiedad.id}`}>Editar</Link>

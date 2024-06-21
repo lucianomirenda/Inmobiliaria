@@ -51,13 +51,13 @@ export const fetchLocalidades = async () => {
       const data = await response.json();
   
       if (data.status === 'success') {
-        return data.data[0]; // Devolver la propiedad
+        return data.data[0]; 
       } else {
         throw new Error(data.message || 'Error desconocido al cargar la propiedad');
       }
     } catch (error) {
       console.error('Error al cargar la propiedad:', error);
-      throw error; // Re-lanzar el error
+      throw error; 
     }
   };
   

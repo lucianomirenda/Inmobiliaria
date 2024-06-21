@@ -1,6 +1,6 @@
 import React, {useState,useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
-import './PropiedadEditPage.css'; // Asegúrate de tener este archivo CSS
+import './PropiedadEditPage.css'; 
 
 import { fetchPropiedadPorId, fetchLocalidades, fetchTiposPropiedad } from 'D:/PHP/inmobiliaria/src/utils/api.js';
 
@@ -70,6 +70,7 @@ const PropiedadEditPage = () => {
 
         event.preventDefault();
         const formData = new FormData(event.target);
+        const dataToSend = formDataToObject(formData);
         
         const domicilio = formData.get('domicilio');
         const localidadId = formData.get('localidad_id');
@@ -81,35 +82,37 @@ const PropiedadEditPage = () => {
         const valorNoche = formData.get('valor_noche');
 
 
-        if (domicilio.trim() === '') { // trim() elimina espacios en blanco al principio y al final
+        if (domicilio.trim() === '') { 
             setError('El domicilio es obligatorio.');
             mostrarErrorOn();
-            return; // Detener el envío del formulario si la validación falla
+            return; 
         }
 
-        if (localidadId === '') { // Verifica si se ha seleccionado una localidad (el valor no es una cadena vacía)
+        if (localidadId === '') { 
             setError('Debes seleccionar una localidad.');
             mostrarErrorOn();
-            return; // Detener el envío del formulario si la validación falla
+            return; 
         }
 
-        if (cantidadHabitaciones.trim() === ''){
-            setError('La cantidad de habitaciones no puede estar vacío.');
-            mostrarErrorOn();
-            return;
-        } else if(!/^\d+$/.test(cantidadHabitaciones)) {
-            setError('La cantidad de huéspedes debe ser un número entero.');
-            mostrarErrorOn();
-            return;
+        if (cantidadHabitaciones != ''){
+            if(!/^\d+$/.test(cantidadHabitaciones)) {
+                setError('La cantidad de huéspedes debe ser un número entero.');
+                mostrarErrorOn();
+                return;
+            }
+        } else {
+            delete dataToSend.cantidad_habitaciones;
         }
-        if (cantidadBanios.trim() === ''){
-            setError('La cantidad de baños no puede estar vacío.');
-            mostrarErrorOn();
-            return;
-        } else if(!/^\d+$/.test(cantidadBanios)) {
+
+
+        if (cantidadBanios !=  ''){
+            if(!/^\d+$/.test(cantidadBanios)) {
             setError('La cantidad de baños debe ser un número entero.');
             mostrarErrorOn();
             return;
+            }
+        } else {
+            delete dataToSend.cantidad_banios;
         }
 
         if (cantidadHuespedes.trim() === ''){
@@ -138,7 +141,6 @@ const PropiedadEditPage = () => {
             return;
           }
         
-          // Validación de valor_noche
         if (valorNoche.trim() === '') {
             setError('El valor por noche no puede estar vacío.');
             mostrarErrorOn();
@@ -151,14 +153,13 @@ const PropiedadEditPage = () => {
 
         try {
 
-            const dataToSend = formDataToObject(formData);
             const response = await fetch(`http://localhost/propiedades/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(dataToSend),
-              });
+            });
 
             if(response.ok){
                 const data = await response.json();
@@ -173,8 +174,7 @@ const PropiedadEditPage = () => {
                     mostrarErrorOn();
                 }
             } else {
-                console.log('error en la api');
-                mostrarErrorOn();
+                throw new Error('Error en la respuesta de la API');
             }
 
         } catch(error){
@@ -230,7 +230,7 @@ const PropiedadEditPage = () => {
                 
                 <div>
                     <label htmlFor='cochera'>Cochera:</label>
-                    <input type='checkbox' htmlFor="cochera" id='cochera' name='cochera' defaultValue={propiedad.cochera}/>
+                    <input type='checkbox' id='cochera' name='cochera' defaultValue={propiedad.cochera}/>
                 </div>
                 
                 <div>

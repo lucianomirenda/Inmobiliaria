@@ -63,20 +63,12 @@ const DetailPropiedad = () => {
           )}
           <dt>Cochera:</dt>
           <dd>{propiedad.cochera ? 'Sí' : 'No'}</dd>
-          {propiedad.imagen && (
-            <>
+          <>
               <dt>Imagen:</dt>
               <dd className="imagen-propiedad">
-                <img src={`http://localhost/images/${propiedad.imagen}`} alt="Imagen de la propiedad" /> {/* Asegúrate de ajustar la ruta de la imagen */}
+                  <img src={propiedad.imagen} alt="Imagen de la propiedad" />
               </dd>
-            </>
-          )}
-          {propiedad.tipo_imagen && (
-            <>
-              <dt>Tipo de imagen:</dt>
-              <dd>{propiedad.tipo_imagen}</dd>
-            </>
-          )}
+          </>
         <Link to="/propiedad" className="btn btn-primary">
           Volver al listado
         </Link>

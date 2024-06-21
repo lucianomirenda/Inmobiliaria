@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate   } from 'react-router-dom';
+import React, { useState} from 'react';
+import { useParams, useNavigate   } from 'react-router-dom';
 import './EditTipoPropiedad.css';
 
 
 const EditTipoPropiedad = () => {
   
   const { id, nombre } = useParams();
-  const [nombreEditado, setNombreEditado] = useState(nombre); // Usar el nombre obtenido de la URL
-  const location = useLocation(); // Obtener el state de la ubicación
+  const [nombreEditado, setNombreEditado] = useState(nombre); 
   const [mensaje, setMensaje] = useState('');
-  const navigate = useNavigate(); // Obtener la función de navegación
+  const navigate = useNavigate(); 
 
   const handleVolver = () => {
     navigate(-1); 
@@ -24,6 +23,7 @@ const EditTipoPropiedad = () => {
     }
 
     try {
+
       const response = await fetch(`http://localhost/tipos_propiedad/${id}`, {
         method: 'PUT',
         headers: {
@@ -54,13 +54,13 @@ const EditTipoPropiedad = () => {
           <input
             type="text"
             id="nombre"
-            value={nombreEditado} // Usar el nuevo estado
+            value={nombreEditado} 
             onChange={(e) => setNombreEditado(e.target.value)}
           />
         </div>
         <button type="submit">Guardar Cambios</button>
       </form>
-      <button type="button" onClick={handleVolver}>Volver</button> {/* Botón Volver */}
+      <button type="button" onClick={handleVolver}>Volver</button> 
       {mensaje && (
         <p className={`mensaje-${mensaje.includes('Error') ? 'error' : 'exito'} mostrar`}>
           {mensaje}

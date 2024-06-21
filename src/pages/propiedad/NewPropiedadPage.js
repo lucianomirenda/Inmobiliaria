@@ -1,21 +1,47 @@
 import React, {useState,useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
-import './PropiedadEditPage.css'; // Asegúrate de tener este archivo CSS
+import './PropiedadEditPage.css'; 
 
 import { fetchLocalidades, fetchTiposPropiedad } from 'D:/PHP/inmobiliaria/src/utils/api.js';
 
 
 const NewPropiedadPage = () => {
 
+    const [filtros, setFiltros] = useState({
+        disponible: true,
+        localidad_id: '',
+        fecha_inicio_disponibilidad: '',
+        cantidad_huespedes: '',
+    });
+
     const navigate = useNavigate();
     const { id } = useParams();
     const [propiedad, setPropiedad] = useState(null);
     const [localidades,setLocalidades] = useState([]);
     const [tiposPropiedad,setTipoPropiedad] = useState([]);
+    
     const [mostrarError, setMostrarError] = useState(false);
     const [mostrarExito, setMostrarExito] = useState(false);
     const [exito, setExito] = useState(false);
     const [error, setError] = useState(null);
+    const [imagenPreview, setImagenPreview] = useState(null);
+
+    const handleFiltroChange = (event) => {
+        const { name, value, type, checked, files } = event.target;
+        setFiltros(prevFiltros => ({
+          ...prevFiltros,
+          [name]: type === 'checkbox' ? checked : value,
+        }));
+    
+        // Actualizar la vista previa de la imagen y almacenar el archivo
+        if (name === 'imagen' && files[0]) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setImagenPreview(reader.result);
+            };
+            reader.readAsDataURL(files[0]);
+          }
+    };
 
 
     useEffect(()=>{
@@ -57,6 +83,13 @@ const NewPropiedadPage = () => {
         }, 5000);
     }
 
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
     const handleSubmit = async(event) => {
 
         const formDataToObject = (formData) => {
@@ -69,7 +102,8 @@ const NewPropiedadPage = () => {
 
         event.preventDefault();
         const formData = new FormData(event.target);
-        
+        const dataToSend = formDataToObject(formData);
+
         const domicilio = formData.get('domicilio');
         const localidadId = formData.get('localidad_id');
         const cantidadHabitaciones = formData.get('cantidad_habitaciones');
@@ -78,37 +112,29 @@ const NewPropiedadPage = () => {
         const fechaInicioDisponibilidad = formData.get('fecha_inicio_disponibilidad');
         const cantidadDias = formData.get('cantidad_dias');
         const valorNoche = formData.get('valor_noche');
+        const imagen = formData.get('imagen')
 
 
-        if (domicilio.trim() === '') { // trim() elimina espacios en blanco al principio y al final
+        if (domicilio.trim() === '') { 
             setError('El domicilio es obligatorio.');
             mostrarErrorOn();
-            return; // Detener el envío del formulario si la validación falla
+            return; 
         }
 
-        if (localidadId === '') { // Verifica si se ha seleccionado una localidad (el valor no es una cadena vacía)
+        if (localidadId === '') { 
             setError('Debes seleccionar una localidad.');
             mostrarErrorOn();
-            return; // Detener el envío del formulario si la validación falla
+            return; 
         }
 
-        if (cantidadHabitaciones.trim() === ''){
-            setError('La cantidad de habitaciones no puede estar vacío.');
-            mostrarErrorOn();
-            return;
-        } else if(!/^\d+$/.test(cantidadHabitaciones)) {
-            setError('La cantidad de huéspedes debe ser un número entero.');
-            mostrarErrorOn();
-            return;
-        }
-        if (cantidadBanios.trim() === ''){
-            setError('La cantidad de baños no puede estar vacío.');
-            mostrarErrorOn();
-            return;
-        } else if(!/^\d+$/.test(cantidadBanios)) {
-            setError('La cantidad de baños debe ser un número entero.');
-            mostrarErrorOn();
-            return;
+        if (cantidadHabitaciones != ''){
+            if(!/^\d+$/.test(cantidadHabitaciones)) {
+                setError('La cantidad de huéspedes debe ser un número entero.');
+                mostrarErrorOn();
+                return;
+            }
+        } else {
+            delete dataToSend.cantidad_habitaciones;
         }
 
         if (cantidadHuespedes.trim() === ''){
@@ -119,6 +145,17 @@ const NewPropiedadPage = () => {
             setError('La cantidad de huéspedes debe ser un número entero.');
             mostrarErrorOn();
             return;
+        }
+
+
+        if (cantidadBanios !=  ''){
+            if(!/^\d+$/.test(cantidadBanios)) {
+            setError('La cantidad de baños debe ser un número entero.');
+            mostrarErrorOn();
+            return;
+            }
+        } else {
+            delete dataToSend.cantidad_banios;
         }
         
         if (fechaInicioDisponibilidad.trim() === '') {
@@ -137,7 +174,6 @@ const NewPropiedadPage = () => {
             return;
           }
         
-          // Validación de valor_noche
         if (valorNoche.trim() === '') {
             setError('El valor por noche no puede estar vacío.');
             mostrarErrorOn();
@@ -150,13 +186,14 @@ const NewPropiedadPage = () => {
 
         try {
 
-            const dataToSend = formDataToObject(formData);
+            const imagenBase64 = await toBase64(imagen); // Convertir a Base64
+
             const response = await fetch(`http://localhost/propiedades`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(dataToSend),
+                body: JSON.stringify(dataToSend, {imagen: imagenBase64}),
               });
 
             if(response.ok){
@@ -177,7 +214,7 @@ const NewPropiedadPage = () => {
 
         } catch(error){
             console.log('error ', error);
-            setError(error);
+            setError(error.message);
             mostrarErrorOn();
         }
     }
@@ -264,6 +301,18 @@ const NewPropiedadPage = () => {
                         </option>
                         ))}
                     </select>
+                </div>
+                <div>
+                    <label htmlFor="imagen">Ingrese una imagen</label>
+                    <div>
+                    <label htmlFor="imagen">Ingrese una imagen</label>
+                    {imagenPreview ? ( 
+                        <img src={imagenPreview} alt="Vista previa" style={{ maxWidth: '200px', marginTop: '10px' }} />
+                    ) : (
+                        <img src="https://www.purina.com.ar/sites/default/files/styles/webp/public/2022-10/Que_debes_saber_antes_de_adoptar_un_gatito.jpg.webp?itok=9zgitaBO" alt="Imagen por defecto" style={{ maxWidth: '200px', marginTop: '10px' }} />
+                    )}
+                    </div>
+                    <input type="file" className="imagen" name="imagen" id="imagen"></input>
                 </div>
                 <button type='submit'>guardar</button>
                 <button type="button" onClick={() => navigate(-1)}>Volver</button>

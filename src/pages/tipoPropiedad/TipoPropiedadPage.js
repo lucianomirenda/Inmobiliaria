@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './TipoPropiedadPage.css';
-import { Link } from 'react-router-dom'; // Importar Link
+import { Link } from 'react-router-dom'; 
 
 
 const TipoPropiedadPage = () => {
   const [tiposPropiedad, setTiposPropiedad] = useState([]);
   const [error, setError] = useState(null);
-  const [mensajeEliminacion, setMensajeEliminacion] = useState(null); // Nuevo estado para el mensaje
+  const [mensajeEliminacion, setMensajeEliminacion] = useState(null); 
   const [mostrarError, setMostrarError] = useState(false); 
   const [mostrarExito, setMostrarExito] = useState(false);
 
@@ -19,8 +19,8 @@ const TipoPropiedadPage = () => {
         }
         const data = await response.json();
 
-        if (data.status === 'success') { // Verificar el estado de la respuesta
-          setTiposPropiedad(data.data); // Acceder a los datos dentro de la respuesta
+        if (data.status === 'success') { 
+          setTiposPropiedad(data.data); 
         } else {
           throw new Error(data.message || 'Error desconocido en la API'); 
         }
@@ -46,17 +46,17 @@ const TipoPropiedadPage = () => {
         const data = await response.json();
         if (data.status === 'success') {
           setTiposPropiedad(tiposPropiedad.filter(tipo => tipo.id !== tipoId));
-          setMostrarExito(true); // Mostrar mensaje de éxito
+          setMostrarExito(true); 
           setTimeout(() => {
             setMostrarExito(false);
-            setError(null); // Reiniciar el estado de error (por si acaso)
+            setError(null); 
           }, 3000); 
         } else {
           setError(data.message || 'Error desconocido en la API');
           setMostrarError(true); 
           setTimeout(() => {
             setMostrarError(false);
-          }, 3000); // Actualizar el estado del mensaje
+          }, 3000); 
 
         }
       } catch (error) {
