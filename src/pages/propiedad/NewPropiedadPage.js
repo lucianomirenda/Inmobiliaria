@@ -24,24 +24,6 @@ const NewPropiedadPage = () => {
     const [mostrarExito, setMostrarExito] = useState(false);
     const [exito, setExito] = useState(false);
     const [error, setError] = useState(null);
-    const [imagenPreview, setImagenPreview] = useState(null);
-
-    const handleFiltroChange = (event) => {
-        const { name, value, type, checked, files } = event.target;
-        setFiltros(prevFiltros => ({
-          ...prevFiltros,
-          [name]: type === 'checkbox' ? checked : value,
-        }));
-    
-        // Actualizar la vista previa de la imagen y almacenar el archivo
-        if (name === 'imagen' && files[0]) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              setImagenPreview(reader.result);
-            };
-            reader.readAsDataURL(files[0]);
-          }
-    };
 
 
     useEffect(()=>{
@@ -306,8 +288,8 @@ const NewPropiedadPage = () => {
                     <label htmlFor="imagen">Ingrese una imagen</label>
                     <div>
                     <label htmlFor="imagen">Ingrese una imagen</label>
-                    {imagenPreview ? ( 
-                        <img src={imagenPreview} alt="Vista previa" style={{ maxWidth: '200px', marginTop: '10px' }} />
+                    {tiposPropiedad.imagen ? ( 
+                        <img src={tiposPropiedad.imagen} alt="Vista previa" style={{ maxWidth: '200px', marginTop: '10px' }} />
                     ) : (
                         <img src="https://www.purina.com.ar/sites/default/files/styles/webp/public/2022-10/Que_debes_saber_antes_de_adoptar_un_gatito.jpg.webp?itok=9zgitaBO" alt="Imagen por defecto" style={{ maxWidth: '200px', marginTop: '10px' }} />
                     )}
