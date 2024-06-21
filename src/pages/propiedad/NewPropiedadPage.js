@@ -7,13 +7,6 @@ import { fetchLocalidades, fetchTiposPropiedad } from 'D:/PHP/inmobiliaria/src/u
 
 const NewPropiedadPage = () => {
 
-    const [filtros, setFiltros] = useState({
-        disponible: true,
-        localidad_id: '',
-        fecha_inicio_disponibilidad: '',
-        cantidad_huespedes: '',
-    });
-
     const navigate = useNavigate();
     const { id } = useParams();
     const [propiedad, setPropiedad] = useState(null);
@@ -65,13 +58,6 @@ const NewPropiedadPage = () => {
         }, 5000);
     }
 
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
-
     const handleSubmit = async(event) => {
 
         const formDataToObject = (formData) => {
@@ -83,6 +69,7 @@ const NewPropiedadPage = () => {
         };
 
         event.preventDefault();
+
         const formData = new FormData(event.target);
         const dataToSend = formDataToObject(formData);
 
@@ -94,7 +81,15 @@ const NewPropiedadPage = () => {
         const fechaInicioDisponibilidad = formData.get('fecha_inicio_disponibilidad');
         const cantidadDias = formData.get('cantidad_dias');
         const valorNoche = formData.get('valor_noche');
-        const imagen = formData.get('imagen')
+        const imagen = formData.get('imagen');
+        
+        if (imagen) {
+            const nombreImagen = imagen.name.split('.')[0]; // Nombre sin extensión
+            const extensionImagen = imagen.name.split('.').pop(); // Extensión
+
+            dataToSend.imagen = nombreImagen;
+            dataToSend.tipo_imagen = extensionImagen;
+        }
 
 
         if (domicilio.trim() === '') { 
@@ -168,14 +163,12 @@ const NewPropiedadPage = () => {
 
         try {
 
-            const imagenBase64 = await toBase64(imagen); // Convertir a Base64
-
             const response = await fetch(`http://localhost/propiedades`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(dataToSend, {imagen: imagenBase64}),
+                body: JSON.stringify(dataToSend)
               });
 
             if(response.ok){
@@ -215,7 +208,7 @@ const NewPropiedadPage = () => {
                 </p>
             )} 
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
 
                 <div>
                     <label htmlFor='domicilio'>Domicilio: </label>
@@ -285,16 +278,10 @@ const NewPropiedadPage = () => {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="imagen">Ingrese una imagen</label>
                     <div>
-                    <label htmlFor="imagen">Ingrese una imagen</label>
-                    {tiposPropiedad.imagen ? ( 
-                        <img src={tiposPropiedad.imagen} alt="Vista previa" style={{ maxWidth: '200px', marginTop: '10px' }} />
-                    ) : (
-                        <img src="https://www.purina.com.ar/sites/default/files/styles/webp/public/2022-10/Que_debes_saber_antes_de_adoptar_un_gatito.jpg.webp?itok=9zgitaBO" alt="Imagen por defecto" style={{ maxWidth: '200px', marginTop: '10px' }} />
-                    )}
+                        <label htmlFor="imagen">Ingrese una imagen:</label> {/* Etiqueta para el campo de imagen */}
+                        <input type="file" name="imagen" id="imagen" /> 
                     </div>
-                    <input type="file" className="imagen" name="imagen" id="imagen"></input>
                 </div>
                 <button type='submit'>guardar</button>
                 <button type="button" onClick={() => navigate(-1)}>Volver</button>

@@ -268,6 +268,18 @@ const PropiedadEditPage = () => {
                         ))}
                     </select>
                 </div>
+                <div>
+                    <label htmlFor="imagen" className="custom-file-upload">
+                        Seleccionar imagen
+                        <input type="file" name="imagen" id="imagen" /> 
+                    </label>
+
+                    {propiedad.imagen && (
+                        <div className='imagen-actual'>
+                            Imagen actual: {propiedad.imagen}.{propiedad.tipo_imagen}
+                        </div>
+                    )}
+                </div>
                 <button type='submit'>guardar</button>
                 <button type="button" onClick={() => navigate(-1)}>Volver</button>
             </form>

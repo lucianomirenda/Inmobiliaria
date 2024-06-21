@@ -47,6 +47,11 @@
     margin-right: 5px;
   }
   
+  .edit-propiedad-page .imagen-actual{
+
+      margin-top: 15px;
+  }
+
   .edit-propiedad-page button[type="submit"] {
     grid-column: span 2; /* El botón ocupa ambas columnas */
     background-color: #28a745; /* Verde para acciones positivas */
