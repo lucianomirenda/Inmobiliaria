@@ -1,35 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import './TipoPropiedadPage.css';
+import '../../assets/styles/Pages.css';
+import '../../assets/styles/Mensajes.css';
 import { Link } from 'react-router-dom'; 
-
+import { fetchTiposPropiedad } from '../../utils/api';
 
 const TipoPropiedadPage = () => {
   const [tiposPropiedad, setTiposPropiedad] = useState([]);
   const [error, setError] = useState(null);
-  const [mensajeEliminacion, setMensajeEliminacion] = useState(null); 
+  const [exito,setExito] = useState(null);
   const [mostrarError, setMostrarError] = useState(false); 
   const [mostrarExito, setMostrarExito] = useState(false);
 
-  useEffect(() => {
-    const fetchTiposPropiedad = async () => {
-      try {
-        const response = await fetch('http://localhost/tipos_propiedad'); 
-        if (!response.ok) {
-          throw new Error('Error en la respuesta de la API');
-        }
-        const data = await response.json();
+  function mostrarErrorOn() {
+    setMostrarError(true);
+    setTimeout(() => {
+      setMostrarError(false);
+      setError(null);
+      setExito(null);
+    }, 5000);
+  }
+  
+  function mostrarExitoOn() {
+    setMostrarExito(true);
+    setTimeout(() => {
+      setMostrarExito(false);
+      setError(null);
+      setExito(null);
+    }, 5000);
+  }
 
-        if (data.status === 'success') { 
-          setTiposPropiedad(data.data); 
-        } else {
-          throw new Error(data.message || 'Error desconocido en la API'); 
-        }
-      } catch (error) {
-        console.error('Error al obtener los tipos de propiedad');
+  useEffect(() => {
+    
+    const cargarDatos = async () => {
+      try {
+          const tiposPropiedadData = await fetchTiposPropiedad();
+          setTiposPropiedad(tiposPropiedadData)
+      } catch (error){
+          console.log(error);
       }
     };
 
-    fetchTiposPropiedad();
+    cargarDatos();
   }, []);
 
   const handleEliminarTipoPropiedad = async (tipoId) => {
@@ -46,37 +57,32 @@ const TipoPropiedadPage = () => {
         const data = await response.json();
         if (data.status === 'success') {
           setTiposPropiedad(tiposPropiedad.filter(tipo => tipo.id !== tipoId));
-          setMostrarExito(true); 
-          setTimeout(() => {
-            setMostrarExito(false);
-            setError(null); 
-          }, 3000); 
+          console.log(data.message);
+          setExito(data.message);
+          mostrarExitoOn();
         } else {
           setError(data.message || 'Error desconocido en la API');
-          setMostrarError(true); 
-          setTimeout(() => {
-            setMostrarError(false);
-          }, 3000); 
-
+          mostrarErrorOn() 
         }
       } catch (error) {
         console.error('Error al eliminar el tipo de propiedad:', error);
         setError('Error al eliminar el tipo de propiedad');
+        mostrarErrorOn() 
       }
     }
   };
 
   return (
-    <div className="tipo-propiedad-page">
+    <div className="page">
       
       <h1>Tipos de propiedad</h1>
 
-      {mostrarExito && (
-        <p className="mensaje-exito mostrar">Tipo de propiedad eliminado con éxito</p>
-    ) }
+      {exito && mostrarExito && (
+        <p className="mensaje-exito">{exito}</p>
+      ) }
 
       {error && mostrarError && (
-        <p className="error-message mostrar">Error: {error}</p>
+        <p className="mensaje-error">Error: {error}</p>
       )}
 
       <Link to="/tipoPropiedad/nuevo" className="btn btn-primary">
@@ -84,9 +90,9 @@ const TipoPropiedadPage = () => {
       </Link>
 
         {Array.isArray(tiposPropiedad) && tiposPropiedad.length > 0 ? (
-        <ul className="tipo-propiedad-list">
+        <ul className="list">
           {tiposPropiedad.map(tipo => (
-            <li key={tipo.id} className="tipo-propiedad-card">
+            <li key={tipo.id} className="card">
               <h2>{tipo.nombre}</h2>
               <div className="card-actions"> {/* Nuevo contenedor */}
               <Link to={`/tipo-propiedad/editar/${tipo.id}/${tipo.nombre}`}>

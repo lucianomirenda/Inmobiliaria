@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './PropiedadPage.css'; 
-import { fetchLocalidades } from 'D:/PHP/inmobiliaria/src/utils/api.js';
+import '../../assets/styles/PagePropiedad.css'; 
+import '../../assets/styles/Mensajes.css';
+import { fetchLocalidades } from '../../utils/api';
 
 const PropiedadPage = () => {
 
@@ -131,11 +132,11 @@ const PropiedadPage = () => {
       <h1>Propiedades</h1>
   
       {error && mostrarError && (
-        <p className="error-message mostrar">Error: {error}</p>
+        <p className="mensaje-error">Error: {error}</p>
       )}
       
       {exito && mostrarExito && (
-        <p className="mensaje-exito mostrar">
+        <p className="mensaje-exito">
           {exito}
         </p>
       )} 
@@ -202,7 +203,7 @@ const PropiedadPage = () => {
 
         <div className="listado-propiedades">
           {Array.isArray(propiedades) && ( 
-            <ul className="propiedad-list">
+            <div className="propiedad-list">
               {propiedades.length > 0 ? (
                 propiedades.map(propiedad => (
                   <li key={propiedad.id} className="propiedad-card">
@@ -227,7 +228,7 @@ const PropiedadPage = () => {
               ) : (
                 <p>No hay propiedades disponibles.</p>
               )}
-            </ul>
+            </div>
           )}
         </div>
       </div>

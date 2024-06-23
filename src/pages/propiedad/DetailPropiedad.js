@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import './DetailPropiedad.css';
-import { fetchPropiedadPorId } from 'D:/PHP/inmobiliaria/src/utils/api.js'; // Importar la función
+import '../../assets/styles/Detail.css';
+import { fetchPropiedadPorId } from '../../utils/api';
 
 
 
@@ -11,7 +11,7 @@ const DetailPropiedad = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const cargarPropiedad = async () => { // Función para cargar la propiedad
+    const cargarPropiedad = async () => {
       try {
         const propiedadData = await fetchPropiedadPorId(id);
         setPropiedad(propiedadData);
@@ -73,7 +73,7 @@ const DetailPropiedad = () => {
             </>
           )}
           </>
-        <Link to="/propiedad" className="btn btn-primary">
+        <Link to="/" className="btn btn-primary">
           Volver al listado
         </Link>
         </div>

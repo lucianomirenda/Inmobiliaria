@@ -7,7 +7,7 @@ const HeaderComponent = () => {
     return (
       <div className="logo-container">
         <img src= {logo} alt="Mi logo" className="logo-img"  />
-        <div className="logo-text"> LUMINAR Reservas Inmobiliarias</div>
+        <div className="logo-text"> LUMINAR Inmobiliarias</div>
         <NavBar/>
       </div>
     );

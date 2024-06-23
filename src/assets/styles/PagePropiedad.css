@@ -1,0 +1,261 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+    
+.tipo-propiedad-page,
+.edit-tipo-propiedad-page {
+  background-color: #fff;
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  max-width: 1200px; 
+  margin: 30px auto; 
+}
+    
+h1 {
+  color: #333;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+label {
+  font-weight: bold;
+  color: #555;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select {
+  padding: 15px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  border-radius: 0;
+  font-size: 1.1rem;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: #28a745;
+}
+
+
+button[type="submit"],
+.btn-primary{
+  background-color: #28a745; 
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration:dashed;
+}
+
+button[type="submit"]:hover,
+.btn-primary:hover {
+  background-color: #218838; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+}
+
+
+.edit-tipo-propiedad-page button[type="button"] {
+  background-color: #dc3545; 
+  margin-top: 40px; 
+}
+
+.edit-tipo-propiedad-page button[type="button"]:hover {
+  background-color: #c82333;  
+}
+
+.filtros-container {
+  display: flex;
+  margin-bottom: 30px; 
+  flex-direction: column; 
+  gap: 10px; 
+  width: 250px; 
+  padding: 20px; 
+  border: 1px solid #ddd; 
+  border-radius: 8px; 
+  background-color: #fff; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+.filtro {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.filtro label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 0.9rem; 
+  margin-bottom: 3px;
+}
+
+.filtro input[type="date"],
+.filtro input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  min-width: 100px; 
+}
+.filtro select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px; 
+  padding: 8px; 
+  font-size: 0.9rem; 
+  width: 100%;
+}  
+
+.filtro .checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 5px; 
+}
+
+.filtro input[type="checkbox"] {
+  appearance: none; 
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filtro input[type="checkbox"]:checked {
+  background-color: #28a745; 
+}
+
+.filtro .checkbox-label {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: white; 
+  border-radius: 3px;
+  transition: transform 0.3s ease;
+}
+
+.filtro input[type="checkbox"]:checked + .checkbox-label {
+  transform: translateX(8px); 
+}
+
+.tipo-propiedad-page .contenido-principal {
+  display: flex; 
+  gap: 100px;   
+}
+
+.tipo-propiedad-page .listado-propiedades {
+  width: 70%; 
+}
+    
+.list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px; 
+}
+
+.propiedad-card {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  width: 400px;
+  border: 1px solid #ddd; 
+}
+
+.propiedad-card h2 {
+  color: #333;
+  font-size: 1.8rem; 
+  margin-bottom: 15px; 
+}
+
+.propiedad-card p {
+  color: #6c757d;
+  line-height: 1.5;
+}
+
+.propiedad-card button {
+  background-color: #28a745; 
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.propiedad-card button:hover {
+  background-color: #218838; 
+}
+
+.propiedad-card .card-actions {
+  display: flex;
+  align-items: center; 
+  gap: 10px;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.propiedad-card .card-actions a,
+.propiedad-card .card-actions button { 
+  display: block; 
+  background-color: #28a745;
+  color: white;
+  padding: 15px 30px; 
+  margin: 0;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  line-height: 1.2rem; 
+  font-size: 18px;
+  margin-top: 20px; 
+  text-align: center; 
+}
+
+.propiedad-card .card-actions button:hover, 
+.propiedad-card .card-actions a:hover { 
+  background-color: #218838;
+}
+
+.propiedad-card:hover .card-actions {
+  opacity: 1;
+}
+
+.propiedad-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+}

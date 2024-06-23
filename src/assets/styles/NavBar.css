@@ -1,19 +1,24 @@
 .navbar {
-    padding: 20px;
-  }
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+}
   
-  .nav-item {
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px;
-    font-weight: 520;
-    margin-left: 20px;
-    color: #000;
-    text-decoration: none;
-    margin-right: 15px;
-    margin-left: 15px;
-  }
+.nav-item {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 520;
+  margin-left: 20px;
+  color: #000;
+  text-decoration: none;
+  margin-right: 20px;
+  align-items: center;
   
-  .nav-item:hover {
-    text-decoration: underline;
-  }
+}
+
+.nav-item:hover {
+  text-decoration: underline;
+}
   

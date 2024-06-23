@@ -1,5 +1,4 @@
-
-.tipo-propiedad-page {
+.page {
   font-family: 'Poppins', sans-serif;
   display: flex;
   flex-direction: column;
@@ -11,8 +10,8 @@
   max-width: 800px; 
   margin: 0 auto;
 }
-
-.tipo-propiedad-page h1 {
+  
+.page h1 {
   color: #333;
   font-size: 2.5rem; 
   margin-bottom: 40px;
@@ -20,48 +19,41 @@
   text-transform: uppercase;
   letter-spacing: 2px;
 }
-
-
+  
 .propiedad-list {
   list-style: none;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px; 
 }
-
-.tipo-propiedad-list li { 
-  list-style-type: none; 
-  margin-left: 0;        
-}
-
-.tipo-propiedad-card {
-  margin: 20px;
-  width: 400px;
+  
+.card {
   background-color: #fff;
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   transition: all 0.3s ease;
+  margin-top: 30px;
+  
 }
-
-.tipo-propiedad-card h2 {
+  
+.card h2 {
   color: #333;
   font-size: 1.8rem; 
   margin-bottom: 15px; 
 }
-
-.tipo-propiedad-card p {
+  
+.card p {
   color: #6c757d;
   line-height: 1.5;
 }
-
-.tipo-propiedad-card:hover {
+  
+.card:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
 }
-
-.tipo-propiedad-card button {
+  
+.card button {
   background-color: #28a745; 
   color: white;
   padding: 10px 20px;
@@ -71,89 +63,44 @@
   margin-top: 15px;
   transition: background-color 0.3s ease;
 }
-
-
-.tipo-propiedad-card button:hover {
+  
+.card button:hover {
   background-color: #218838; 
 }
-
-.tipo-propiedad-card .card-actions {
+  
+.card .card-actions {
   display: flex;
   gap: 10px;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-
-.tipo-propiedad-card:hover .card-actions {
+  
+.card:hover .card-actions {
   opacity: 1;
 }
-
-.tipo-propiedad-page .btn-primary {
+  
+.page .btn-primary {
   background-color: #28a745; 
   color: white;
-  padding: 15px 30px; 
+  padding: 15px 30px;
   border: none;
-  border-radius: 25px; 
+  border-radius: 25px;
   font-size: 1.2rem;
   font-weight: bold;
   text-decoration: none;
   transition: background-color 0.3s ease, transform 0.2s ease;
   margin-bottom: 20px; 
-  
 }
-
-.tipo-propiedad-page .btn-primary:hover {
+  
+.page .btn-primary:hover {
   background-color: #218838;
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
-.tipo-propiedad-page .error-message {
-  background-color: #f8d7da; 
-  color: #721c24; 
-  padding: 10px 15px;
-  border-radius: 5px;
-  margin-top: 20px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  gap: 10px; 
-  position: fixed; 
-  top: 20px; 
-  left: 50%;
-  transform: translateX(-50%); 
-  z-index: 10; 
-}
-
-.tipo-propiedad-page .mensaje-exito {
-  background-color: #d4edda; 
-  color: #155724; 
-  padding: 15px 20px; 
-  border-radius: 8px; 
-  margin-top: 20px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center; 
-  gap: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  position: fixed; 
-  top: 20px; 
-  transform: translateX(-50%); 
-  z-index: 10; 
-}
-
-
-.tipo-propiedad-page .mensaje-exito.mostrar {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.edit-tipo-propiedad-page button[type="button"] {
+  
+ 
+.edit-page button[type="button"] {
   background-color: #35dc64; 
   color: white;
   margin-top: 20px;
@@ -166,8 +113,9 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
 }
-.edit-tipo-propiedad-page button[type="button"]:hover {
+
+.edit-page button[type="button"]:hover {
   background-color: #329a2b; 
-  transform: translateY(-2px); 
+  transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
 }

@@ -1,17 +1,17 @@
 import React, {useState,useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
-import './PropiedadEditPage.css'; 
+import '../../assets/styles/EditPropiedades.css'; 
+import '../../assets/styles/Mensajes.css';
+import { fetchLocalidades, fetchTiposPropiedad } from '../../utils/api';
 
-import { fetchPropiedadPorId, fetchLocalidades, fetchTiposPropiedad } from 'D:/PHP/inmobiliaria/src/utils/api.js';
 
-
-const PropiedadEditPage = () => {
+const NewPropiedad = () => {
 
     const navigate = useNavigate();
     const { id } = useParams();
-    const [propiedad, setPropiedad] = useState(null);
     const [localidades,setLocalidades] = useState([]);
     const [tiposPropiedad,setTipoPropiedad] = useState([]);
+    
     const [mostrarError, setMostrarError] = useState(false);
     const [mostrarExito, setMostrarExito] = useState(false);
     const [exito, setExito] = useState(false);
@@ -20,20 +20,16 @@ const PropiedadEditPage = () => {
 
     useEffect(()=>{
         const cargarDatos = async () => {
-
             try {
-                const propiedadData = await fetchPropiedadPorId(id);
-                setPropiedad(propiedadData);
-
                 const localidadesData = await fetchLocalidades();
                 setLocalidades(localidadesData);
 
                 const tiposPropiedadData = await fetchTiposPropiedad();
                 setTipoPropiedad(tiposPropiedadData)
+
             } catch (error){
                 console.log(error);
             }
-
         };
 
         cargarDatos();
@@ -69,9 +65,10 @@ const PropiedadEditPage = () => {
         };
 
         event.preventDefault();
+
         const formData = new FormData(event.target);
         const dataToSend = formDataToObject(formData);
-        
+
         const domicilio = formData.get('domicilio');
         const localidadId = formData.get('localidad_id');
         const cantidadHabitaciones = formData.get('cantidad_habitaciones');
@@ -80,6 +77,15 @@ const PropiedadEditPage = () => {
         const fechaInicioDisponibilidad = formData.get('fecha_inicio_disponibilidad');
         const cantidadDias = formData.get('cantidad_dias');
         const valorNoche = formData.get('valor_noche');
+        const imagen = formData.get('imagen');
+        
+        if (imagen) {
+            const nombreImagen = imagen.name.split('.')[0]; // Nombre sin extensión
+            const extensionImagen = imagen.name.split('.').pop(); // Extensión
+
+            dataToSend.imagen = nombreImagen;
+            dataToSend.tipo_imagen = extensionImagen;
+        }
 
 
         if (domicilio.trim() === '') { 
@@ -94,7 +100,7 @@ const PropiedadEditPage = () => {
             return; 
         }
 
-        if (cantidadHabitaciones != ''){
+        if (cantidadHabitaciones !== ''){
             if(!/^\d+$/.test(cantidadHabitaciones)) {
                 setError('La cantidad de huéspedes debe ser un número entero.');
                 mostrarErrorOn();
@@ -102,17 +108,6 @@ const PropiedadEditPage = () => {
             }
         } else {
             delete dataToSend.cantidad_habitaciones;
-        }
-
-
-        if (cantidadBanios !=  ''){
-            if(!/^\d+$/.test(cantidadBanios)) {
-            setError('La cantidad de baños debe ser un número entero.');
-            mostrarErrorOn();
-            return;
-            }
-        } else {
-            delete dataToSend.cantidad_banios;
         }
 
         if (cantidadHuespedes.trim() === ''){
@@ -123,6 +118,17 @@ const PropiedadEditPage = () => {
             setError('La cantidad de huéspedes debe ser un número entero.');
             mostrarErrorOn();
             return;
+        }
+
+
+        if (cantidadBanios !==  ''){
+            if(!/^\d+$/.test(cantidadBanios)) {
+            setError('La cantidad de baños debe ser un número entero.');
+            mostrarErrorOn();
+            return;
+            }
+        } else {
+            delete dataToSend.cantidad_banios;
         }
         
         if (fechaInicioDisponibilidad.trim() === '') {
@@ -153,13 +159,13 @@ const PropiedadEditPage = () => {
 
         try {
 
-            const response = await fetch(`http://localhost/propiedades/${id}`, {
-                method: 'PUT',
+            const response = await fetch(`http://localhost/propiedades`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(dataToSend),
-            });
+                body: JSON.stringify(dataToSend)
+              });
 
             if(response.ok){
                 const data = await response.json();
@@ -167,19 +173,19 @@ const PropiedadEditPage = () => {
                     console.log('success');
                     setExito(data.message);
                     mostrarExitoOn();
-                    setPropiedad(await fetchPropiedadPorId(id));
                 } else {
                     console.log('error: no success ',data.message);
                     setError(data.message);
                     mostrarErrorOn();
                 }
             } else {
-                throw new Error('Error en la respuesta de la API');
+                console.log('error en la api');
+                mostrarErrorOn();
             }
 
         } catch(error){
             console.log('error ', error);
-            setError(error);
+            setError(error.message);
             mostrarErrorOn();
         }
     }
@@ -187,28 +193,27 @@ const PropiedadEditPage = () => {
  
     return (
         <div className='edit-propiedad-page'>
-            <h1>Editar Propiedad</h1>
+            <h1>Crear una Nueva Propiedad</h1>
             {error && mostrarError && (
-                <p className="error-message mostrar">Error: {error}</p>
+                <p className="mensaje-error">Error: {error}</p>
             )}
             
             {mostrarExito && (
-                <p className="mensaje-exito mostrar">
+                <p className="mensaje-exito">
                     {exito}
                 </p>
             )} 
 
-            {propiedad ? (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
 
                 <div>
                     <label htmlFor='domicilio'>Domicilio: </label>
-                    <input type="text" id="domicilio" name="domicilio" defaultValue={propiedad.domicilio}></input>
+                    <input type="text" id="domicilio" name="domicilio" defaultValue={''}></input>
                 </div>
                 
                 <div>
                     <label htmlFor='localidad_id'>Localidad: </label>
-                    <select id ="localidad_id" name="localidad_id" defaultValue={propiedad.localidad_id}>
+                    <select id ="localidad_id" name="localidad_id">
                         {localidades.map(localidad => (
                             <option key={localidad.id} value={localidad.id}>
                                 {localidad.nombre}
@@ -220,47 +225,47 @@ const PropiedadEditPage = () => {
                 <div>
                     <label htmlFor='cantidad_habitaciones'>Cantidad de Habitaciones:</label>
                     <input type="number" id="cantidad_habitaciones"
-                    name="cantidad_habitaciones" defaultValue={propiedad.cantidad_habitaciones} />
+                    name="cantidad_habitaciones" />
                 </div>
 
                 <div>
                     <label htmlFor='cantidad_banios'>Cantidad de baños:</label>
-                    <input type="number" id="cantidad_banios" name="cantidad_banios" defaultValue={propiedad.cantidad_banios}/>
+                    <input type="number" id="cantidad_banios" name="cantidad_banios"/>
                 </div>
                 
                 <div>
                     <label htmlFor='cochera'>Cochera:</label>
-                    <input type='checkbox' id='cochera' name='cochera' defaultValue={propiedad.cochera}/>
+                    <input type='checkbox' htmlFor="cochera" id='cochera' name='cochera' />
                 </div>
                 
                 <div>
                     <label htmlFor="cantidad_huespedes">Cantidad de huéspedes:</label>
-                    <input type="number" id="cantidad_huespedes" name="cantidad_huespedes" defaultValue={propiedad.cantidad_huespedes} />
+                    <input type="number" id="cantidad_huespedes" name="cantidad_huespedes" />
                 </div>
 
                 <div>
                     <label htmlFor="fecha_inicio_disponibilidad">Fecha de inicio de disponibilidad:</label>
-                    <input type="date" id="fecha_inicio_disponibilidad" name="fecha_inicio_disponibilidad" defaultValue={propiedad.fecha_inicio_disponibilidad} />
+                    <input type="date" id="fecha_inicio_disponibilidad" name="fecha_inicio_disponibilidad"/>
                 </div>
 
                 <div>
                     <label htmlFor="cantidad_dias">Cantidad de días:</label>
-                    <input type="number" id="cantidad_dias" name="cantidad_dias" defaultValue={propiedad.cantidad_dias} />
+                    <input type="number" id="cantidad_dias" name="cantidad_dias"  />
                 </div>
 
                 <div>
                     <label htmlFor="disponible">Disponible:</label>
-                    <input type="checkbox" id="disponible" name="disponible" defaultChecked={propiedad.disponible} />
+                    <input type="checkbox" id="disponible" name="disponible" />
                 </div>
 
                 <div>
                     <label htmlFor="valor_noche">Valor por noche:</label>
-                    <input type="number" id="valor_noche" name="valor_noche" defaultValue={propiedad.valor_noche} />
+                    <input type="number" id="valor_noche" name="valor_noche"  />
                 </div>
 
                 <div>
                     <label htmlFor="tipo_propiedad_id">Tipo de propiedad:</label>
-                    <select id="tipo_propiedad_id" name="tipo_propiedad_id" defaultValue={propiedad.tipo_propiedad_id}>
+                    <select id="tipo_propiedad_id" name="tipo_propiedad_id" >
                         {tiposPropiedad.map(tipo => (
                         <option key={tipo.id} value={tipo.id}>
                             {tipo.nombre}
@@ -269,26 +274,17 @@ const PropiedadEditPage = () => {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="imagen" className="custom-file-upload">
-                        Seleccionar imagen
+                    <div>
+                        <label htmlFor="imagen">Ingrese una imagen:</label> {/* Etiqueta para el campo de imagen */}
                         <input type="file" name="imagen" id="imagen" /> 
-                    </label>
-
-                    {propiedad.imagen && (
-                        <div className='imagen-actual'>
-                            Imagen actual: {propiedad.imagen}.{propiedad.tipo_imagen}
-                        </div>
-                    )}
+                    </div>
                 </div>
-                <button type='submit'>guardar</button>
+                <button type='submit'>Guardar</button>
                 <button type="button" onClick={() => navigate(-1)}>Volver</button>
             </form>
-            ) : (
-                <p>Cargando propiedades..</p>
-            )}
 
         </div>
     );
 };
 
-export default PropiedadEditPage;
+export default NewPropiedad;
