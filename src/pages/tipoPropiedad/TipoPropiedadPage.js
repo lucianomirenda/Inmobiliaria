@@ -50,23 +50,19 @@ const TipoPropiedadPage = () => {
           method: 'DELETE',
         });
 
+        const data = await response.json();
+        
         if (!response.ok) {
+          setError(data.message || 'Error desconocido en la API');
           throw new Error('Error en la respuesta de la API');
         }
 
-        const data = await response.json();
-        if (data.status === 'success') {
-          setTiposPropiedad(tiposPropiedad.filter(tipo => tipo.id !== tipoId));
-          console.log(data.message);
-          setExito(data.message);
-          mostrarExitoOn();
-        } else {
-          setError(data.message || 'Error desconocido en la API');
-          mostrarErrorOn() 
-        }
+        setTiposPropiedad(tiposPropiedad.filter(tipo => tipo.id !== tipoId));
+        setExito(data.message);
+        mostrarExitoOn();
+
       } catch (error) {
         console.error('Error al eliminar el tipo de propiedad:', error);
-        setError('Error al eliminar el tipo de propiedad');
         mostrarErrorOn() 
       }
     }

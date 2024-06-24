@@ -105,22 +105,19 @@ const PropiedadPage = () => {
           method: 'DELETE',
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
+          setError(data.message)
           throw new Error('Error en la respuesta de la API');
         }
 
-        const data = await response.json();
-        if (data.status === 'success') {
-          setPropiedades(propiedades.filter(propiedad => propiedad.id !== propiedadId));
-          setExito(data.message);
-          mostrarExitoOn()
-        } else {
-          setError(data.message || 'Error desconocido en la API');
-          mostrarErrorOn()
-        }
+        setPropiedades(propiedades.filter(propiedad => propiedad.id !== propiedadId));
+        setExito(data.message);
+        mostrarExitoOn()
+        
       } catch (error) {
         console.error('Error al eliminar la propiedad:', error);
-        setError('Error al eliminar la propiedad');
         mostrarErrorOn()
       }
     }

@@ -59,6 +59,15 @@ const EditPropiedad = () => {
         }, 5000);
     }
 
+    function devolverMensajeError(errores){
+        let mensajesError = ''; 
+        for (const campo in errores) {
+            const mensajeError = errores[campo];
+            mensajesError += `${mensajeError}.\n`; 
+        }
+        return mensajesError;
+    }
+
     const handleSubmit = async(event) => {
 
         const formDataToObject = (formData) => {
@@ -83,12 +92,13 @@ const EditPropiedad = () => {
         const valorNoche = formData.get('valor_noche');
         const imagen = formData.get('imagen');
 
-
+  
         if (domicilio.trim() === '') { 
             setError('El domicilio es obligatorio.');
             mostrarErrorOn();
             return; 
         }
+
 
         if (localidadId === '') { 
             setError('Debes seleccionar una localidad.');
@@ -173,25 +183,20 @@ const EditPropiedad = () => {
                 body: JSON.stringify(dataToSend),
             });
 
-            if(response.ok){
-                const data = await response.json();
-                if(data.status ===  'success'){
-                    console.log('success');
-                    setExito(data.message);
-                    mostrarExitoOn();
-                    setPropiedad(await fetchPropiedadPorId(id));
-                } else {
-                    console.log('error: no success ',data.data);
-                    setError(data.message);
-                    mostrarErrorOn();
-                }
-            } else {
+            const data = await response.json();
+
+            if (!response.ok) {
+                setError(devolverMensajeError(data.message.error))
+                console.log(data.message.error);
                 throw new Error('Error en la respuesta de la API');
             }
 
+            setExito(data.message);
+            mostrarExitoOn();
+            setPropiedad(await fetchPropiedadPorId(id));
+
         } catch(error){
             console.log('error ', error);
-            setError(error);
             mostrarErrorOn();
         }
     }
