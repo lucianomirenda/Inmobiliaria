@@ -55,22 +55,21 @@ const PropiedadPage = () => {
         ).toString();
   
         const response = await fetch(`http://localhost/propiedades${queryParams ? '?' + queryParams : ''}`);
-  
-        if (!response.ok) {
-          throw new Error('Error en la respuesta de la API');
-        }
-  
+
         const data = await response.json();
-        if (data.status === 'success') {
-          setPropiedades(data.data);
-        } else {
-          throw new Error(data.message || 'Error desconocido en la API');
+
+        if (!response.ok) {
+          throw new Error(data.message);
         }
+  
+        setPropiedades(data.data);
+        
       } catch (error) {
         console.error('Error al obtener las propiedades:', error);
-        setError(error.message);
+        setError("Hubo un problema. Intente de nuevo");
         mostrarErrorOn() 
       }
+
     };
 
     fetchPropiedades();
@@ -82,7 +81,7 @@ const PropiedadPage = () => {
         const localidadesData = await fetchLocalidades();
         setLocalidades(localidadesData);
       } catch (error) {
-        setError(error.message);
+        console.log(error);
       }
     };
 

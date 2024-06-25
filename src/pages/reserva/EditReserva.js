@@ -129,27 +129,19 @@ const EditReservaPage = () => {
         body: JSON.stringify(dataToSend),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        if (data.status === 'success') {
-          console.log('success');
-          setExito(data.message);
-          mostrarExitoOn();
-          setReserva(await fetchReservaPorId(id));
-        } else {
-          const mensaje = devolverMensajeError(data.message.error);
-          console.log(data.message)
-          setError(mensaje || 'Error desconocido en la API');
-          mostrarErrorOn()
-        }
-      } else {
-        const errorResponse = await response.json();
-        setError(errorResponse.message || 'Error desconocido');
-        mostrarErrorOn();
+      const data = await response.json();
+
+      if (!response.ok) {
+          setError(devolverMensajeError(data.message.error));
+          throw new Error('Error en la respuesta de la API');
       }
+
+      setExito(data.message);
+      mostrarExitoOn();
+      setReserva(await fetchReservaPorId(id));
+
     } catch (error) {
       console.log(error);
-      setError(error.message || 'Error desconocido');
       mostrarErrorOn();
     }
   };

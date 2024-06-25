@@ -48,23 +48,19 @@ const NewTipoPropiedad = () => {
         body: JSON.stringify({ nombre }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
+        setError(data.error.nombre);
         throw new Error('Error en la respuesta de la API');
       }
-
-      const data = await response.json();
       
-      if(data.status === 'success'){
-        setExito(data.message);
-        mostrarExitoOn();
-      } else {
-        setError(data.error.nombre);
-        mostrarErrorOn();
-      }
+      setExito(data.message);
+      mostrarExitoOn();
+
     } catch (error) {
-      console.error('Error al actualizar el tipo de propiedad:', error);
-      setError('Hubo un fallo, intente más tarde');
       mostrarErrorOn();
+      console.error('Error al actualizar el tipo de propiedad:', error);
     }
   };
 

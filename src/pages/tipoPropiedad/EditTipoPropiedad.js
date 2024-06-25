@@ -44,6 +44,7 @@ const EditTipoPropiedad = () => {
     }
 
     try {
+
       const response = await fetch(`http://localhost/tipos_propiedad/${id}`, {
         method: 'PUT',
         headers: {
@@ -52,23 +53,19 @@ const EditTipoPropiedad = () => {
         body: JSON.stringify({ nombre: nombreEditado }), 
       });
 
-      if (!response.ok) {
-        throw new Error('Error en la respuesta de la API');
-      }
-
       const data = await response.json();
 
-      if(data.status === 'success'){
-        setExito(data.message);
-        mostrarExitoOn();
-      } else {
+      if (!response.ok) {
         setError(data.error.nombre);
-        mostrarErrorOn();
+        throw new Error('Error en la respuesta de la API');
       }
+      
+      setExito(data.message);
+      mostrarExitoOn();
+
     } catch (error) {
-      console.error('Error al actualizar el tipo de propiedad:', error);
-      setError('Hubo un fallo, intente más tarde');
       mostrarErrorOn();
+      console.error('Error al actualizar el tipo de propiedad:', error);
     }
   };
 

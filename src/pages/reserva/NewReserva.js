@@ -99,29 +99,25 @@ const NewReserva = () => {
                 body: JSON.stringify(datosReserva),
             });
 
-            if (!response.ok) {
-                throw new Error('Error en la respuesta de la API');
-            }
-
             const data = await response.json();
 
-            if (data.status === 'success') {
-                console.log(data.data)
-                setExito(data.message);
-                mostrarExitoOn()
-                setPropiedadId('');
-                setInquilinoId('');
-                setFechaDesde('');
-                setCantidadNoches('');
-                setValorNoche('');
-            } else {
-                setError(devolverMensajeError(data.message.error) || 'Error desconocido en la API');
-                mostrarErrorOn()
+            if (!response.ok) {
+                setError(devolverMensajeError(data.message.error));
+                throw new Error('Error en la respuesta de la API');
             }
+            
+            console.log(data.data)
+            setExito(data.message);
+            mostrarExitoOn()
+            setPropiedadId('');
+            setInquilinoId('');
+            setFechaDesde('');
+            setCantidadNoches('');
+            setValorNoche('');
+
         } catch (error) {
-            console.error('Error al crear la reserva:', error);
-            setError('Error al crear la reserva.');
             mostrarErrorOn();
+            console.error('Error al crear la reserva:', error);
         }
     };
 

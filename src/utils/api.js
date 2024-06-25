@@ -107,15 +107,11 @@ export const fetchLocalidades = async () => {
   
       const data = await response.json();
       
-  
-      if (data.status === 'success') {
-        return data.data;
-      } else {
-        throw new Error(data.message || 'Error desconocido al cargar las reservas');
-      }
+      return data.data;
+      
     } catch (error) {
       console.error('Error al cargar las reservas:', error);
-      throw error; // Re-lanzar el error para que pueda ser manejado en el componente
+      throw error; 
     }
   };
 

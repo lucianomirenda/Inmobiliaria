@@ -50,23 +50,20 @@ const ReservaPage = () => {
           method: 'DELETE',
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
+          setError(data.message);
           throw new Error('Error en la respuesta de la API');
         }
 
-        const data = await response.json();
-        if (data.status === 'success') {
-          setReservas(reservas.filter(reserva => reserva.id !== EliminarReserva.id));
-          setExito(data.message);
-          mostrarExitoOn()
-        } else {
-          setError(data.message || 'Error desconocido en la API');
-          mostrarErrorOn()
-        }
+        setReservas(reservas.filter(reserva => reserva.id !== EliminarReserva.id));
+        setExito(data.message);
+        mostrarExitoOn()
+
     } catch (error) {
-      console.error('Error al eliminar la reserva:', error);
-      setError('Error al eliminar la reserva');
       mostrarErrorOn()
+      console.error('Error al eliminar la reserva:', error);
       }
     }
   };
