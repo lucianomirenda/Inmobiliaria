@@ -14,7 +14,7 @@ const NewReserva = () => {
     const [inquilinoId, setInquilinoId] = useState('');
     const [fechaDesde, setFechaDesde] = useState('');
     const [cantidadNoches, setCantidadNoches] = useState('');
-    const [valorNoche, setValorNoche] = useState('');
+    const [valorTotal, setValorTotal] = useState('');
     const [exito, setExito] = useState(false);
     const [error, setError] = useState(null);
     const [mostrarError, setMostrarError] = useState(false); 
@@ -48,7 +48,6 @@ const NewReserva = () => {
               }
             };
         
-      
             const cargarInquilinos = async () => {
               try {
                 const inquilinosData = await fetchInquilinos();
@@ -75,11 +74,43 @@ const NewReserva = () => {
 
         event.preventDefault();
 
-        if (!propiedadId || !inquilinoId || !fechaDesde || !cantidadNoches || !valorNoche) {
-            setError('Todos los campos son obligatorios.');
+        if (inquilinoId === '') {
+            setError('Debes seleccionar un inquilino.');
             mostrarErrorOn();
             return;
-        }
+          }
+      
+          if (propiedadId === '') {
+            setError('Debes seleccionar una propiedad.');
+            mostrarErrorOn();
+            return;
+          }
+      
+          if (cantidadNoches.trim() === '') {
+            setError('La cantidad de noches no puede estar vacío.');
+            mostrarErrorOn();
+            return;
+          } else if (!/^\d+$/.test(cantidadNoches)) {
+            setError('La cantidad de noches debe ser un número positivo.');
+            mostrarErrorOn();
+            return;
+          }
+      
+          if (fechaDesde.trim() === '') {
+            setError('La fecha de inicio de la reserva es obligatoria.');
+            mostrarErrorOn();
+            return;
+          }
+      
+          if (valorTotal.trim() === '') {
+            setError('El valor total no puede estar vacío.');
+            mostrarErrorOn();
+            return;
+          } else if (!/^\d+$/.test(valorTotal)) {
+            setError('El valor total debe ser un número positivo.');
+            mostrarErrorOn();
+            return;
+          }
 
         try {
             
@@ -88,7 +119,7 @@ const NewReserva = () => {
                 inquilino_id: inquilinoId,
                 fecha_desde: fechaDesde,
                 cantidad_noches: cantidadNoches,
-                valor_noche: valorNoche,
+                valor_total: valorTotal,
             };
 
             const response = await fetch('http://localhost/reservas', {
@@ -113,7 +144,7 @@ const NewReserva = () => {
             setInquilinoId('');
             setFechaDesde('');
             setCantidadNoches('');
-            setValorNoche('');
+            setValorTotal('');
 
         } catch (error) {
             mostrarErrorOn();
@@ -184,12 +215,12 @@ const NewReserva = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="valorNoche">Valor por noche:</label>
+                    <label htmlFor="valorTotal">Valor Total:</label>
                     <input
                         type="number"
-                        id="valorNoche"
-                        value={valorNoche}
-                        onChange={(e) => setValorNoche(e.target.value)}
+                        id="valorTotal"
+                        value={valorTotal}
+                        onChange={(e) => setValorTotal(e.target.value)}
                     />
                 </div>
 
