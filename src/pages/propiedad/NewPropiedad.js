@@ -11,7 +11,8 @@ const navigate = useNavigate();
 const { id } = useParams();
 const [localidades,setLocalidades] = useState([]);
 const [tiposPropiedad,setTipoPropiedad] = useState([]);
-
+const [localidadId,setLocalidadId] = useState('');
+const [tipoPropiedadId,setTipoPropiedadId] = useState('');
 const [mostrarError, setMostrarError] = useState(false);
 const [mostrarExito, setMostrarExito] = useState(false);
 const [exito, setExito] = useState(false);
@@ -77,9 +78,9 @@ const handleSubmit = async(event) => {
 
     const formData = new FormData(event.target);
     const dataToSend = formDataToObject(formData);
-
+    dataToSend.localidad_id = localidadId; 
+    dataToSend.tipo_propiedad_id = tipoPropiedadId;
     const domicilio = formData.get('domicilio');
-    const localidadId = formData.get('localidad_id');
     const cantidadHabitaciones = formData.get('cantidad_habitaciones');
     const cantidadBanios = formData.get('cantidad_banios');
     const cantidadHuespedes = formData.get('cantidad_huespedes');
@@ -89,8 +90,8 @@ const handleSubmit = async(event) => {
     const imagen = formData.get('imagen');
     
     if (imagen.name != "") {
-        const nombreImagen = imagen.name.split('.')[0]; // Nombre sin extensión
-        const extensionImagen = imagen.name.split('.').pop(); // Extensión
+        const nombreImagen = imagen.name.split('.')[0];
+        const extensionImagen = imagen.name.split('.').pop(); 
 
         dataToSend.imagen = nombreImagen;
         dataToSend.tipo_imagen = extensionImagen;
@@ -108,6 +109,12 @@ const handleSubmit = async(event) => {
 
     if (localidadId === '') { 
         setError('Debes seleccionar una localidad.');
+        mostrarErrorOn();
+        return; 
+    }
+
+    if (tipoPropiedadId === '') { 
+        setError('Debes seleccionar un tipo de propiedad.');
         mostrarErrorOn();
         return; 
     }
@@ -171,13 +178,13 @@ const handleSubmit = async(event) => {
 
     try {
 
-        const response = await fetch(`http://localhost/propiedades`, {
+        const response = await fetch (`http://localhost/propiedades`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(dataToSend)
-        });
+    });
 
         const data = await response.json();
 
@@ -219,7 +226,8 @@ return (
             
             <div>
                 <label htmlFor='localidad_id'>Localidad: </label>
-                <select id ="localidad_id" name="localidad_id">
+                <select id ="localidad_id" value={localidadId}  onChange={(e) => setLocalidadId(e.target.value)}>
+                 <option value="">Selecciona una localidad</option>
                     {localidades.map(localidad => (
                         <option key={localidad.id} value={localidad.id}>
                             {localidad.nombre}
@@ -269,9 +277,11 @@ return (
                 <input type="number" id="valor_noche" name="valor_noche"  />
             </div>
 
+            
             <div>
                 <label htmlFor="tipo_propiedad_id">Tipo de propiedad:</label>
-                <select id="tipo_propiedad_id" name="tipo_propiedad_id" >
+                <select id="tipo_propiedad_id" value={tipoPropiedadId}   onChange={(e) => setTipoPropiedadId(e.target.value)} >
+                <option value="">Selecciona un tipo de propiedad</option>
                     {tiposPropiedad.map(tipo => (
                     <option key={tipo.id} value={tipo.id}>
                         {tipo.nombre}
@@ -279,6 +289,7 @@ return (
                     ))}
                 </select>
             </div>
+            
             <div>
                 <div>
                     <label htmlFor="imagen">Ingrese una imagen:</label> {/* Etiqueta para el campo de imagen */}

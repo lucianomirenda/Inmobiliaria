@@ -14,7 +14,6 @@ const NewReserva = () => {
     const [inquilinoId, setInquilinoId] = useState('');
     const [fechaDesde, setFechaDesde] = useState('');
     const [cantidadNoches, setCantidadNoches] = useState('');
-    const [valorTotal, setValorTotal] = useState('');
     const [exito, setExito] = useState(false);
     const [error, setError] = useState(null);
     const [mostrarError, setMostrarError] = useState(false); 
@@ -102,16 +101,6 @@ const NewReserva = () => {
             return;
           }
       
-          if (valorTotal.trim() === '') {
-            setError('El valor total no puede estar vacío.');
-            mostrarErrorOn();
-            return;
-          } else if (!/^\d+$/.test(valorTotal)) {
-            setError('El valor total debe ser un número positivo.');
-            mostrarErrorOn();
-            return;
-          }
-
         try {
             
             const datosReserva = {
@@ -119,7 +108,6 @@ const NewReserva = () => {
                 inquilino_id: inquilinoId,
                 fecha_desde: fechaDesde,
                 cantidad_noches: cantidadNoches,
-                valor_total: valorTotal,
             };
 
             const response = await fetch('http://localhost/reservas', {
@@ -133,8 +121,9 @@ const NewReserva = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                setError(devolverMensajeError(data.message.error));
-                throw new Error('Error en la respuesta de la API');
+                const error = new Error('Error en la respuesta de la API');
+                error.data = devolverMensajeError(data.message.error);
+                throw error;
             }
             
             console.log(data.data)
@@ -144,11 +133,11 @@ const NewReserva = () => {
             setInquilinoId('');
             setFechaDesde('');
             setCantidadNoches('');
-            setValorTotal('');
 
         } catch (error) {
+            setError(error.data);
             mostrarErrorOn();
-            console.error('Error al crear la reserva:', error);
+            console.error('Error al crear la reserva:', error.data);
         }
     };
 
@@ -211,16 +200,6 @@ const NewReserva = () => {
                         id="cantidadNoches"
                         value={cantidadNoches}
                         onChange={(e) => setCantidadNoches(e.target.value)}
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="valorTotal">Valor Total:</label>
-                    <input
-                        type="number"
-                        id="valorTotal"
-                        value={valorTotal}
-                        onChange={(e) => setValorTotal(e.target.value)}
                     />
                 </div>
 

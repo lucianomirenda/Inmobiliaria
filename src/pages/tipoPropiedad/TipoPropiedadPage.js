@@ -53,8 +53,9 @@ const TipoPropiedadPage = () => {
         const data = await response.json();
         
         if (!response.ok) {
-          setError(data.message || 'Error desconocido en la API');
-          throw new Error('Error en la respuesta de la API');
+          const error = new Error('Error en la respuesta de la API');
+          error.data = data.message;
+          throw error;
         }
 
         setTiposPropiedad(tiposPropiedad.filter(tipo => tipo.id !== tipoId));
@@ -62,7 +63,8 @@ const TipoPropiedadPage = () => {
         mostrarExitoOn();
 
       } catch (error) {
-        console.error('Error al eliminar el tipo de propiedad:', error);
+        console.error('Error al eliminar el tipo de propiedad:', error.data);
+        setError(error.data)
         mostrarErrorOn() 
       }
     }

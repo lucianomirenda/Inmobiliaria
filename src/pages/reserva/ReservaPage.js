@@ -5,6 +5,7 @@ import '../../assets/styles/Mensajes.css';
 import { fetchReservas } from '../../utils/api';
 
 const ReservaPage = () => {
+  
   const [reservas, setReservas] = useState([]);
   const [exito, setExito] = useState(false);
   const [error, setError] = useState(null);
@@ -53,8 +54,9 @@ const ReservaPage = () => {
         const data = await response.json();
 
         if (!response.ok) {
-          setError(data.message);
-          throw new Error('Error en la respuesta de la API');
+          const error = new Error('Error en la respuesta de la API');
+          error.data = data.message;
+          throw error;
         }
 
         setReservas(reservas.filter(reserva => reserva.id !== EliminarReserva.id));
@@ -62,8 +64,9 @@ const ReservaPage = () => {
         mostrarExitoOn()
 
     } catch (error) {
+      setError(error.data);
       mostrarErrorOn()
-      console.error('Error al eliminar la reserva:', error);
+      console.error('Error al eliminar la reserva:', error.data);
       }
     }
   };

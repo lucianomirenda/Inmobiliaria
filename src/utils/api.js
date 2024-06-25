@@ -9,11 +9,10 @@ export const fetchLocalidades = async () => {
     const data = await response.json();
 
     return data.data;
- 
 
   } catch (error) {
     console.error('Error al cargar las localidades:', error);
-    throw error; // Re-lanzar el error para que pueda ser manejado en el componente
+    throw error; 
   }
 };
 
@@ -124,16 +123,16 @@ export const fetchPropiedadPorId = async (propiedadId) => {
   try {
     const response = await fetch(`http://localhost/propiedades/${propiedadId}`);
 
-    if (!response.ok) {
-      throw new Error('Error en la respuesta de la API');
-    }
-
     const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error('Error en la respuesta de la API').data = data.message;
+    }
 
       return data.data[0]; 
   
   } catch (error) {
-    console.error('Error al cargar la propiedad:', error);
+    console.error('Error al cargar la propiedad:', error.data);
     throw error; 
   }
 };

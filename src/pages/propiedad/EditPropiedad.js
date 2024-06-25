@@ -117,8 +117,8 @@ const EditPropiedad = () => {
         }
         
         if (imagen.name != 0) {
-            const nombreImagen = imagen.name.split('.')[0]; // Nombre sin extensión
-            const extensionImagen = imagen.name.split('.').pop(); // Extensión
+            const nombreImagen = imagen.name.split('.')[0]; 
+            const extensionImagen = imagen.name.split('.').pop(); 
 
             dataToSend.imagen = nombreImagen;
             dataToSend.tipo_imagen = extensionImagen;
@@ -152,7 +152,7 @@ const EditPropiedad = () => {
             mostrarErrorOn();
             return;
         }
-
+        
         if (cantidadDias.trim() === '') {
             setError('La cantidad de días no puede estar vacío.');
             mostrarErrorOn();
@@ -186,9 +186,9 @@ const EditPropiedad = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                setError(devolverMensajeError(data.message.error))
-                console.log(data.message.error);
-                throw new Error('Error en la respuesta de la API');
+                const error = new Error('Error en la respuesta de la API');
+                error.data = devolverMensajeError(data.message.error);
+                throw error;
             }
 
             setExito(data.message);
@@ -196,7 +196,8 @@ const EditPropiedad = () => {
             setPropiedad(await fetchPropiedadPorId(id));
 
         } catch(error){
-            console.log('error ', error);
+            console.log('Error: ', error.data);
+            setError(error.data);
             mostrarErrorOn();
         }
     }

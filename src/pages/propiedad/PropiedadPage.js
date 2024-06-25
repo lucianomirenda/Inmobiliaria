@@ -43,6 +43,7 @@ const PropiedadPage = () => {
 
     const fetchPropiedades = async () => {
       try {
+        
         const queryParams = new URLSearchParams(
           Object.entries(filtros).reduce((params, [key, value]) => {
             if (key === 'disponible') {
@@ -59,15 +60,17 @@ const PropiedadPage = () => {
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.message);
+          const error = new Error('Error en la API: ');
+          error.data = data.message;
+          throw error;
         }
   
         setPropiedades(data.data);
         
       } catch (error) {
-        console.error('Error al obtener las propiedades:', error);
-        setError("Hubo un problema. Intente de nuevo");
-        mostrarErrorOn() 
+        console.error('Error al obtener las propiedades:', error.data);
+        setError(error.data);
+        mostrarErrorOn();
       }
 
     };
@@ -76,12 +79,15 @@ const PropiedadPage = () => {
   }, [filtros]); 
 
   useEffect(() => {
+    
     const cargarLocalidades = async () => {
       try {
         const localidadesData = await fetchLocalidades();
         setLocalidades(localidadesData);
       } catch (error) {
         console.log(error);
+        setError(error);
+        mostrarErrorOn();
       }
     };
 
@@ -107,8 +113,9 @@ const PropiedadPage = () => {
         const data = await response.json();
 
         if (!response.ok) {
-          setError(data.message)
-          throw new Error('Error en la respuesta de la API');
+          const error = new Error('Error en la respuesta de la API');
+          error.data = data.message;
+          throw error;
         }
 
         setPropiedades(propiedades.filter(propiedad => propiedad.id !== propiedadId));
@@ -116,7 +123,8 @@ const PropiedadPage = () => {
         mostrarExitoOn()
         
       } catch (error) {
-        console.error('Error al eliminar la propiedad:', error);
+        console.error('Error al eliminar la propiedad:', error.data);
+        setError(error.data)
         mostrarErrorOn()
       }
     }

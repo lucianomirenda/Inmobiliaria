@@ -16,7 +16,8 @@ const DetailPropiedad = () => {
         const propiedadData = await fetchPropiedadPorId(id);
         setPropiedad(propiedadData);
       } catch (error) {
-        setError(error.message);
+        console.log(error);
+        setError(error.data);
       }
     };
 

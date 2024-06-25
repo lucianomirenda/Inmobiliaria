@@ -70,9 +70,7 @@ const EditReservaPage = () => {
     const propiedadId = formData.get('propiedad_id');
     const cantidadNoches = formData.get('cantidad_noches');
     const fechaDesde = formData.get('fecha_desde');
-    const valorTotal = formData.get('valor_total');
 
-    // Validaciones
     if (inquilinoId === '') {
       setError('Debes seleccionar un inquilino.');
       mostrarErrorOn();
@@ -85,6 +83,7 @@ const EditReservaPage = () => {
       return;
     }
 
+
     if (cantidadNoches.trim() === '') {
       setError('La cantidad de noches no puede estar vacío.');
       mostrarErrorOn();
@@ -95,21 +94,13 @@ const EditReservaPage = () => {
       return;
     }
 
+
     if (fechaDesde.trim() === '') {
       setError('La fecha de inicio de la reserva es obligatoria.');
       mostrarErrorOn();
       return;
     }
 
-    if (valorTotal.trim() === '') {
-      setError('El valor total no puede estar vacío.');
-      mostrarErrorOn();
-      return;
-    } else if (!/^\d+$/.test(valorTotal)) {
-      setError('El valor total debe ser un número entero.');
-      mostrarErrorOn();
-      return;
-    }
 
     try {
       
@@ -118,7 +109,6 @@ const EditReservaPage = () => {
         propiedad_id: propiedadId,
         cantidad_noches: cantidadNoches,
         fecha_desde: fechaDesde,
-        valor_total: valorTotal,
       };
 
       const response = await fetch(`http://localhost/reservas/${id}`, {
@@ -132,8 +122,9 @@ const EditReservaPage = () => {
       const data = await response.json();
 
       if (!response.ok) {
-          setError(devolverMensajeError(data.message.error));
-          throw new Error('Error en la respuesta de la API');
+          const error = new Error('Error en la respuesta de la API');
+          error.data = devolverMensajeError(data.message.error);
+          throw error;
       }
 
       setExito(data.message);
@@ -141,7 +132,8 @@ const EditReservaPage = () => {
       setReserva(await fetchReservaPorId(id));
 
     } catch (error) {
-      console.log(error);
+      setError(error.data);
+      console.log(error.data);
       mostrarErrorOn();
     }
   };
@@ -189,11 +181,6 @@ const EditReservaPage = () => {
           <div>
             <label htmlFor='fecha_desde'>Fecha Desde:</label>
             <input type='date' id='fecha_desde' name='fecha_desde' defaultValue={reserva.fecha_desde} />
-          </div>
-
-          <div>
-            <label htmlFor='valor_total'>Valor Total:</label>
-            <input type='number' id='valor_total' name='valor_total' defaultValue={reserva.valor_total} />
           </div>
 
           <button type='submit'>Guardar</button>

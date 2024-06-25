@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useLocation, useNavigate   } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, useNavigate   } from 'react-router-dom';
 import '../../assets/styles/Edit.css';
 import '../../assets/styles/Mensajes.css';
 
@@ -8,7 +8,6 @@ const EditTipoPropiedad = () => {
   
   const { id, nombre } = useParams();
   const [nombreEditado, setNombreEditado] = useState(nombre); // Usar el nombre obtenido de la URL
-  const location = useLocation(); // Obtener el state de la ubicación
   const navigate = useNavigate(); // Obtener la función de navegación
   const [mostrarError, setMostrarError] = useState(false);
   const [mostrarExito, setMostrarExito] = useState(false);
@@ -56,14 +55,16 @@ const EditTipoPropiedad = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error.nombre);
-        throw new Error('Error en la respuesta de la API');
+        const error = new Error('Error en la respuesta de la API');
+        error.data = data.error.nombre;
+        throw error;
       }
       
       setExito(data.message);
       mostrarExitoOn();
 
     } catch (error) {
+      setError(error.data)
       mostrarErrorOn();
       console.error('Error al actualizar el tipo de propiedad:', error);
     }

@@ -31,16 +31,16 @@ const NewTipoPropiedad = () => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evitar recarga de página
+    e.preventDefault(); 
 
-    if (nombre.trim() === '') { // Validar que el nombre no esté vacío
+    if (nombre.trim() === '') { 
       setError('El nombre es obligatorio');
       mostrarErrorOn();
       return;
     }
 
     try {
-      const response = await fetch('http://localhost/tipos_propiedad', { // Tu endpoint
+      const response = await fetch('http://localhost/tipos_propiedad', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,16 +51,18 @@ const NewTipoPropiedad = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error.nombre);
-        throw new Error('Error en la respuesta de la API');
+        const error = new Error('Error en la respuesta de la API');
+        error.data = data.error.nombre;
+        throw error;
       }
       
       setExito(data.message);
       mostrarExitoOn();
 
     } catch (error) {
+      setError(error.data);
       mostrarErrorOn();
-      console.error('Error al actualizar el tipo de propiedad:', error);
+      console.error('Error al actualizar el tipo de propiedad:', error.data);
     }
   };
 
